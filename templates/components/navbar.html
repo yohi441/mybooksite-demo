@@ -1,0 +1,173 @@
+<!--navbar-->
+<div class="bg-black py-2 md:justify-between">
+  <div
+    class="container max-w-[80%] flex justify-center items-center md:justify-between md:items-center"
+  >
+    <div class="text-white font-bold text-xl">
+      <a href="{% url 'mybooksite:index' %}">Mybooksite</a>
+    </div>
+    <!--navigation-->
+    <div
+      class="md:flex gap-3 lg:gap-4 hidden text-white justify-center items-center"
+    >
+      <div class="font-medium">
+        <a href="{% url 'mybooksite:about_us'%}"> About us </a>
+      </div>
+      <!--cart-->
+      {% if user.is_authenticated %}
+      <div class="flex items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+        <div>{{count}}</div>
+      </div>
+      <!--user-nav-->
+      <div
+        x-on:click="isOpen = !isOpen, overFlow = !overFlow"
+        x-data="{isOpen:false}"
+        class="bg-purple-900 py-2 p-3 rounded-full font-bold relative cursor-pointer"
+      >
+        <div class="uppercase flex justify-center items-center">
+          {{ user.username|slice:1 }}
+        </div>
+        {% include 'components/user_nav.html' %}
+      </div>
+      {% endif %} {% if not user.is_authenticated %}
+      <div class="ml-2">
+        <a href="{% url 'accounts:login'%}">Login</a>
+        |
+        <a href="{% url 'accounts:register' %}">Sign up</a>
+      </div>
+      {% endif %}
+    </div>
+    <!--hamburger button-->
+    <div
+      x-data="{bBtnOpen: false}"
+      x-on:click="bBtnOpen = !bBtnOpen, overFlow=!overFlow"
+      class="absolute top-3 right-2 text-white md:hidden"
+    >
+      {% if not user.is_authenticated %}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+      {% else %}
+      <div
+        class="uppercase font-bold bg-purple-800 py-2 px-3 inline rounded-full"
+      >
+        {{ user.username|slice:1 }}
+      </div>
+      {% endif %}
+      <!--sidebar-->
+      <div x-show="bBtnOpen" x-cloak class="md:hidden" id="sideBar">
+        <button
+          class="bg-gray-500 fixed inset-0 w-full h-full opacity-50 z-10 cursor-default"
+        ></button>
+        <div
+          class="w-48 h-36 bg-black absolute top-8 right-2 pt-4 z-30 rounded-lg overflow-y-auto"
+        >
+          <ul
+            class="text-white flex flex-col items-center justify-center gap-3 my-3"
+          >
+            {% if not user.is_authenticated %}
+            <li class="text-white">
+              <a
+                class="text-sm hover:text-black"
+                href="{% url 'accounts:login' %}"
+                >SignIn</a
+              >
+              |<a href="{% url 'accounts:register' %}"> SignUp</a>
+            </li>
+            {% endif %} {% if user.is_authenticated %}
+            <div class="font-medium">
+              <p>Hello {{ user.username }}</p>
+            </div>
+            <div class="font-medium">
+              <a href="{% url 'carts:cart' user.pk %}">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </a>
+            </div>
+            {% endif %}
+            <li class="text-white">
+              <a href="{% url 'mybooksite:about_us' %}">About Us</a>
+            </li>
+            {% if user.is_authenticated %}
+            <div class="font-medium">
+              <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Search bar-->
+<form action="{% url 'mybooksite:search' %}">
+  <div
+    class="flex mt-4 lg:mt-5 max-w-[80%] md:max-w-[60%] justify-center items-center mx-auto"
+  >
+    <div class="w-full relative flex justify-center">
+      <input
+        class="rounded-md text-sm py-1 pl-8 w-full block focus:ring-white focus:outline-none"
+        type="text"
+        placeholder="Search"
+        name="q"
+        id="searchInput"
+      />
+
+      <div class="absolute top-[2.5px] left-1 text-gray-500">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </div>
+      <button type="submit"></button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+
+<img src="http://127.0.0.1:8000/media/{{book.img}}" alt="" />
+<div>{{ book.title }}</div>
+<p>{{ book.description }}</p>
+
+<div>
+  <h3>recently viewed</h3>
+  <div>
+    {% for recent_book in recently_viewed_book %}
+    <img src="http://127.0.0.1:8000/media/{{recent_book.thumbnail}}" alt="" />
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

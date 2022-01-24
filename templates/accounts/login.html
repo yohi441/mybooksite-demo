@@ -1,0 +1,72 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container max-w-[80%] md:max-w-[60%] lg:max-w-[40%] my-10">
+  <div id="loginForm" class="bg-gray-600 rounded-lg w-full">
+    <div class="ml-6 text-2xl font-semibold text-white py-5">
+      <h2>Sign in</h2>
+    </div>
+    {% if form.non_field_errors %}
+    <div class="text-xs text-red-700 ml-6 -mt-3">{{form.non_field_errors}}</div>
+    {% endif %}
+    <form action="{% url 'accounts:login' %}" method="post">
+      {% csrf_token %}
+      <div class="flex items-center ml-6 py-3">
+        <label class="block text-white" for="text">Username</label>
+      </div>
+      {% if form.errors.username %}
+      <div class="text-xs text-red-700 ml-6 -mt-3 mb-1">
+        {{form.errors.username}}
+      </div>
+      {% endif %}
+      <div class="flex items-center justify-center">
+        <input
+          class="text-sm w-full rounded-lg mx-6"
+          type="text"
+          name="username"
+          placeholder="username"
+        />
+      </div>
+      <div class="ml-6 py-3">
+        <label class="block text-white" for="text">Password</label>
+      </div>
+      {% if form.errors.password %}
+      <div class="text-xs text-red-700 ml-6 -mt-3 mb-1">
+        {{form.errors.password}}
+      </div>
+      {% endif %}
+      <div class="flex items-center justify-center">
+        <input
+          class="text-sm w-full mx-6 rounded-lg"
+          type="password"
+          placeholder="Password"
+          name="password"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="flex items-center justify-end mr-6 py-3">
+        <a class="text-xs text-white" href="{% url 'accounts:password_reset' %}"
+          >Forgot password?</a
+        >
+      </div>
+
+      <div class="flex justify-center items-center mx-6 py-3">
+        <button type="submit" class="p-2 bg-black text-white rounded-lg w-full">
+          Login
+        </button>
+      </div>
+    </form>
+
+    <div class="flex justify-center items-center py-3 text-xs">
+      <p class="text-white">
+        Don't have an accout?
+        <a
+          id="registerBtn"
+          class="text-white"
+          href="{% url 'accounts:register' %}"
+          >Register here</a
+        >
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

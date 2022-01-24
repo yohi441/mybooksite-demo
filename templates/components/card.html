@@ -1,0 +1,62 @@
+{% load static %}
+<!--card-->
+<div class="py-2">
+  <a href="{% url 'mybooksite:detail' book.pk %}">
+    <!--img-->
+    <div class="flex justify-center items-center">
+      <div class="outline outline-1 rounded-md">
+        <div class="flex items-center justify-center">
+          <img
+            class="h-full w-full object-cover"
+            src="http://127.0.0.1:8000/media/{{book.thumbnail}}"
+            alt="{{ book.title }}"
+          />
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!--rating-->
+  <div class="mt-2">{{book.rating}}</div>
+  <!--title-->
+  <div class="font-semibold text-base flex items-center justify-center">
+    {{ book.title }}
+  </div>
+  <!--subtitle-->
+  <div class="font-normal text-xs flex justify-center items-center">
+    {{ book.description|truncatewords:20 }}
+  </div>
+  <!--price-->
+  <div class="font-semibold flex justify-center items-center mt-2">
+    $ {{book.price}}
+  </div>
+  <!--availability-->
+  <div class="flex justify-center items-center mt-2">
+    <div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 13l4 4L19 7"
+        />
+      </svg>
+    </div>
+    <div>{{ book.availability}}</div>
+  </div>
+  <!--addtocart btn-->
+  <div class="flex items-center justify-center">
+    <a
+      href="{% url 'carts:add_to_cart' book.pk %}"
+      class="flex items-center px-4 py-2 rounded-full bg-black text-white text-xs font-semibold shadow-md mt-2"
+    >
+      add to cart
+    </a>
+  </div>
+</div>

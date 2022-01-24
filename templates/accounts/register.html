@@ -1,0 +1,107 @@
+{% extends 'base.html' %} {%block content%}
+<div class="container max-w-[80%] md:max-w-[60%] lg:max-w-[40%] my-10">
+  <div id="registerForm" class="bg-gray-600 rounded-md">
+    <div class="ml-6 text-2xl font-semibold text-white py-5">
+      <h2>Create Account</h2>
+    </div>
+    <form action="{% url 'accounts:register' %}" method="post">
+      {% csrf_token %}
+      <div class="flex items-center ml-6">
+        <label class="block text-white" for="text">Username</label>
+      </div>
+      {% if form.username.errors %}
+      <div id="username-error" class="text-xs mx-6 mt-2 pb-2 text-red-700">
+        {{form.username.errors}}
+      </div>
+      {% else %}
+      <div id="username-error" class="text-xs mx-6 mt-2 pb-2"></div>
+      {% endif %}
+      <div class="flex items-center justify-center">
+        <input
+          class="text-sm w-full rounded-lg mx-6"
+          type="text"
+          placeholder="Username"
+          name="username"
+          hx-post="{% url 'accounts:check_username' %}"
+          hx-trigger="keyup changed delay:500ms"
+          hx-target="#username-error"
+          hx-swap="outerHTML"
+        />
+      </div>
+      <div class="flex items-center ml-6 mt-3">
+        <label class="block text-white" for="text">Email Address</label>
+      </div>
+      {% if form.email.errors %}
+      <div id="invalid-email" class="text-xs mx-6 mt-2 pb-2 text-red-700">
+        {{form.email.errors}}
+      </div>
+      {% else %}
+      <div id="invalid-email" class="text-xs mx-6 mt-2 pb-2"></div>
+      {% endif %}
+      <div class="flex items-center justify-center">
+        <input
+          class="text-sm w-full rounded-lg mx-6"
+          type="text"
+          placeholder="Email Address"
+          name="email"
+          hx-post="{% url 'accounts:check_email' %}"
+          hx-trigger="keyup changed delay:500ms"
+          hx-target="#invalid-email"
+          hx-swap="outerHTML"
+        />
+      </div>
+      <div class="flex items-center ml-6 mt-3">
+        <label class="block text-white" for="text">Password</label>
+      </div>
+      {% if form.password1.errors %}
+      <div class="text-xs mx-6 mt-2 pb-2 text-red-700">
+        {{form.password1.errors}}
+      </div>
+      {% else %}
+      <div class="text-xs mx-6 mt-2 pb-2"></div>
+      {% endif %}
+      <div class="flex items-center justify-center">
+        <input
+          class="text-sm w-full rounded-lg mx-6"
+          type="password"
+          placeholder="Password"
+          name="password1"
+        />
+      </div>
+      <div class="ml-6 mt-3">
+        <label class="block text-white" for="text">Retype Password</label>
+      </div>
+      {% if form.password2.errors %}
+      <div class="text-xs mx-6 mt-2 pb-2 text-red-700">
+        {{form.password2.errors}}
+      </div>
+      {% else %}
+      <div class="text-xs mx-6 mt-2 pb-2"></div>
+      {% endif %}
+      <div class="flex items-center justify-center">
+        <input
+          class="text-sm w-full rounded-lg mx-6"
+          type="password"
+          placeholder="Retype Password"
+          name="password2"
+        />
+      </div>
+
+      <div class="flex justify-center items-center mx-6 mt-5">
+        <button type="submit" class="p-2 bg-black text-white rounded-lg w-full">
+          Register
+        </button>
+      </div>
+    </form>
+
+    <div class="flex justify-center items-center py-3 text-xs">
+      <p class="text-white">
+        Already have an account?
+        <a id="signBtn" class="text-white" href="{% url 'accounts:login' %}"
+          >Sign In</a
+        >
+      </p>
+    </div>
+  </div>
+</div>
+{%endblock%}

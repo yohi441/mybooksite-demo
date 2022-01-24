@@ -1,0 +1,47 @@
+<!--sub nav-->
+<div x-data="{ isOpen: false }" class="flex items-center gap-3 relative">
+  <div>
+    <a class="text-sm font-medium" href="#">Trending</a>
+  </div>
+
+  <div
+    x-on:click="isOpen = !isOpen, overFlow = !overFlow"
+    class="flex cursor-pointer"
+  >
+    <div class="text-sm font-medium flex items-center">Categories</div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </div>
+  <div
+    x-on:click="isOpen = !isOpen, overFlow=!overFlow"
+    x-show="isOpen"
+    x-cloak
+    class="bg-gray-500 fixed inset-0 w-full h-full opacity-50 z-10 cursor-default"
+  ></div>
+
+  <div
+    x-show="isOpen"
+    x-cloak
+    class="z-20 bg-purple-800 w-48 h-64 rounded-md absolute top-6 p-2 text-white overflow-y-auto"
+  >
+    <ul class="flex flex-col items-center justify-center">
+      {% for category in categories %}
+      <li>
+        <a href="{% url 'mybooksite:category' category.pk %}">{{ category }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
