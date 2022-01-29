@@ -1,0 +1,29 @@
+{% for item in cart.books.all %}
+<div
+  id="cart-card"
+  class="my-5 rounded-md flex justify-between border border-gray-300 shadow-lg"
+>
+  <div class="border border-gray-500 m-2 rounded-sm">
+    <a href="{% url 'mybooksite:detail' item.id %}">
+      <img
+        class="w-36 h-44"
+        src="http://127.0.0.1:8000/media/{{item.thumbnail}}"
+      />
+    </a>
+  </div>
+  <div class="flex flex-col justify-center space-y-3">
+    <h3>Title: {{ item.title }}</h3>
+    <p>Price: ${{item.price}}</p>
+  </div>
+  <div class="flex items-center mx-10">
+    <button
+      class="bg-black py-3 px-3 rounded-md text-white"
+      hx-delete="{% url 'carts:cart_item_delete' item.id %}"
+      hx-confirm="Are you sure you want to delete?"
+      hx-target="#cart-card"
+    >
+      Delete
+    </button>
+  </div>
+</div>
+{% endfor %}

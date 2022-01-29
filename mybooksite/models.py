@@ -11,21 +11,27 @@ class Book(models.Model):
         (4,4),
         (5,5),
     )
-    availability_choice = (
-        ("in_stock", "in_stock"),
-        ("out_stack", "out_of_stack")
-    )
-    
+   
     title = models.CharField(max_length=250)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     rating = models.PositiveIntegerField(choices=rating_choice)
-    availability = models.CharField(max_length=10, choices=availability_choice)
     description = models.TextField()
-    img = models.ImageField(upload_to="book_img")
+    img = models.ImageField(upload_to="book_img", null=True, blank=True)
     thumbnail = models.ImageField(upload_to="book_thumbnails", null=True, blank=True)
+    quantity = models.PositiveIntegerField(default=1)
+    
+    @property
+    def is_in_stock(self):
+        if self.quantity > 0:
+            return 'in stock'
+        return 'out of stock'
+        
+        
 
     def __str__(self):
         return self.title
+
+    
 
 
 class Category(models.Model):

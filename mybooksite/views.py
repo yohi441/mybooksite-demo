@@ -7,22 +7,23 @@ from carts.models import Cart
 
 
 def search_view(request):
-    template = "index.html"
+    template = "components/search_results.html"
 
     try:
         q = request.GET.get('q')
+        books = Book.objects.filter(title__contains=q)[:10]
+ 
     except:
         q = None
-
-    books = Book.objects.filter(title__contains=q)
 
     context = {
         'books': books,
         'q': q
     }
+    if q == "":
+        q = "Search field is empty"
+        return render(request, template, {'q':q })
 
-    if q == '':
-        return redirect('mybooksite/index')
 
     return render(request, template, context)
 
@@ -37,8 +38,10 @@ def index_view(request):
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     
     context = {
+        'mylist': [1,2,3,4,5],
         "categories": categories,
         "page_obj": page_obj
     }
@@ -103,7 +106,6 @@ def about_us_view(request):
     template = "about_us.html"
 
     
-
     return render(request, template)
 
 

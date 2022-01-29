@@ -8,24 +8,28 @@ from mybooksite.models import Book
 
 @receiver(pre_save, sender=Book)
 def create_thumbnail(sender, instance, **kwargs):
-    img = Image.open(instance.img)
-    size = (200,200)
+    if instance.img:
+        img = Image.open(instance.img)
+        size = (200,200)
 
-    img.thumbnail(size, Image.ANTIALIAS)
+        img.thumbnail(size, Image.ANTIALIAS)
 
-    temp_thumb = BytesIO()
+        temp_thumb = BytesIO()
 
-    img.save(temp_thumb, "JPEG")
+        img.save(temp_thumb, "JPEG")
 
-    temp_thumb.seek(0)
-    
-    # set save=False, otherwise it will run in an infinite loop
-    instance.thumbnail.save(
-        instance.img.name,
-        ContentFile(temp_thumb.read()),
-        save=False
-    )
-    temp_thumb.close()
+        temp_thumb.seek(0)
+        
+        # set save=False, otherwise it will run in an infinite loop
+        instance.thumbnail.save(
+            instance.img.name,
+            ContentFile(temp_thumb.read()),
+            save=False
+        )
+        temp_thumb.close()
+    else:
+        pass
+
         
         
        

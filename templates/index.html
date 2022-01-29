@@ -13,13 +13,13 @@
 
     <!--card-->
     <section
-      class="mt-3 mx-2 sm:mx-0 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 min-h-[60vh]"
+      class="mt-8 mx-2 sm:mx-0 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 min-h-[60vh]"
     >
-      {% if q == None %} {% for book in page_obj %}
-      <div>{% include 'components/card.html'%}</div>
-      {% endfor %} {% else %} {% for book in books %}
-      <div>{% include 'components/result.html' %}</div>
-      {% endfor %} {%endif%}
+      {% for book in page_obj %}
+      <div class="mb-12 border border-gray-300 rounded-md shadow-md">
+        {% include 'components/card.html'%}
+      </div>
+      {% endfor %}
     </section>
     <!--page-nav-->
     {% include 'components/bottom_nav.html' %}

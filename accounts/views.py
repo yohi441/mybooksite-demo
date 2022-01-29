@@ -34,6 +34,7 @@ def login_view(request):
         form = AuthenticationForm(request)
         if request.user.is_authenticated:
             return redirect('/')
+
     context = {
         'form':form
     }
@@ -41,11 +42,15 @@ def login_view(request):
     return render(request, template, context)
 
 
+
+
 def logout_view(request):
     logout(request)
 
     return redirect('mybooksite:index')
     
+
+
 
 def check_username(request):
     
@@ -57,18 +62,21 @@ def check_username(request):
                     'msg': 'Username must have atleast 4 characters',
                     'color': 'text-red-700',
                 }
+
                 return render(request, "accounts/partials/invalid_username.html", context)
             if get_user_model().objects.filter(username=username).exists():
                 context = {
                     'msg': 'Username is already exists',
                     'color': 'text-red-700',
                     }
+
                 return render(request, "accounts/partials/invalid_username.html", context)
             else:
                 context = {
                     'msg': 'Username is available',
                     'color': 'text-green-600',
                      }
+
                 return render(request, "accounts/partials/invalid_username.html", context)
         else:
             context = {
@@ -80,8 +88,10 @@ def check_username(request):
         return redirect('accounts:register')
 
 
+
+
 def check_email(request):
-    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     if request.method == "POST":
         email = request.POST.get('email')
         if email:
@@ -132,6 +142,7 @@ def register_view(request):
 
 
 
+
 def password_reset_request(request):
     if request.method == 'POST':
         password_form = PasswordResetForm(request.POST)
@@ -162,4 +173,5 @@ def password_reset_request(request):
     context = {
         'password_form': password_form
     }
+    
     return render(request, 'accounts/password_reset.html', context)

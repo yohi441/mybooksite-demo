@@ -1,17 +1,16 @@
-{% extends 'base.html' %} {% block content %} {% for item in cart.books.all %}
+{% extends 'base.html' %} {% block content %}
 
-<div class="ml-3 bg-gray-500 flex justify-between">
-  <div>
-    <p>{{ item.title }}</p>
-    <p>$ {{ item.price }}</p>
-  </div>
+<div class="max-w-[80%] container mt-5">
+  <h2 class="text-2xl">Cart</h2>
 
-  <div class="flex flex-col">
-    <button>Delete</button> <button>Checkout</button>
+  <div id="cart-card" class="mt-10">
+
+    <!--cart card-->
+    {% include 'carts/partials/partial_cart.html' %}
+    
   </div>
+  <div>Quantity: {{count}}</div>
+  <div>Total:$ {{total}}</div>
 </div>
-
-{% endfor %}
-<div>Quantity: {{count}}</div>
-<div>Total:$ {{total}}</div>
+</div>
 {% endblock content %}
