@@ -1,4 +1,5 @@
 
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from mybooksite.models import Book, Category
@@ -9,6 +10,8 @@ from carts.models import Cart
 def search_view(request):
     template = "components/search_results.html"
 
+    count = count_cart(request)
+
     try:
         q = request.GET.get('q')
         books = Book.objects.filter(title__contains=q)[:10]
@@ -18,11 +21,12 @@ def search_view(request):
 
     context = {
         'books': books,
-        'q': q
+        'q': q,
+        'count': count
     }
     if q == "":
         q = "Search field is empty"
-        return render(request, template, {'q':q })
+        return render(request, template, {'q':q, 'count':count })
 
 
     return render(request, template, context)
@@ -31,19 +35,24 @@ def search_view(request):
 def index_view(request):
     template = "index.html"
 
-    categories = Category.objects.all()
-    books = Book.objects.all()
-    paginator = Paginator(books, 10)
+    count = count_cart(request)
     
+    categories = Category.objects.all()
+    books = Book.objects.all().order_by('updated_at')
+    paginator = Paginator(books, 10)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
+    if request.user.is_authenticated:
+        cart = Cart.objects.get(user=request.user)
+        count = cart.books.count()
+        
     
     context = {
         'mylist': [1,2,3,4,5],
         "categories": categories,
-        "page_obj": page_obj
+        "page_obj": page_obj,
+        "count": count
     }
 
     return render(request, template, context) 
@@ -51,6 +60,8 @@ def index_view(request):
 
 def detail_view(request, pk):
     template = "detail.html"
+
+    count = count_cart(request)
 
     book = Book.objects.get(pk=pk)
     recently_viewed_book = None
@@ -75,7 +86,8 @@ def detail_view(request, pk):
 
     context = {
         'book': book,
-        'recently_viewed_book': recently_viewed_book
+        'recently_viewed_book': recently_viewed_book,
+        'count': count
     }
 
     return render(request, template, context)
@@ -83,6 +95,8 @@ def detail_view(request, pk):
 
 def category_view(request,pk):
     template ="index.html"
+
+    count = count_cart(request)
 
     categories = Category.objects.all()
     category = Category.objects.get(pk=pk)
@@ -95,7 +109,7 @@ def category_view(request,pk):
 
     context = {
         "categories": categories,
-        
+        "count": count,
         "page_obj": page_obj
     }
 
@@ -105,8 +119,28 @@ def category_view(request,pk):
 def about_us_view(request):
     template = "about_us.html"
 
+    count = count_cart(request)
+    context = {
+        'count': count,
+    }
     
-    return render(request, template)
+    return render(request, template, context)
+
+
+def count_cart(request):
+    if request.user.is_authenticated:
+        cart = Cart.objects.get(user=request.user)
+        count = cart.books.count()
+        return count
+    return None
+
+
+
+
+
+    
+
+
 
 
 

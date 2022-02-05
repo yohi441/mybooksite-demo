@@ -1,13 +1,13 @@
 <!--sub nav-->
-<div x-data="{ isOpen: false }" class="flex items-center gap-3 relative">
+<div x-data="{ isOpen: false }" class="relative flex items-center gap-3">
   <div
     x-on:click="isOpen = !isOpen, overFlow = !overFlow"
     class="flex cursor-pointer"
   >
-    <div class="text-sm font-medium flex items-center">Categories</div>
+    <div class="flex items-center text-sm font-medium text-gray-800">Categories</div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class="h-5 w-5"
+      class="w-5 h-5"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -24,19 +24,21 @@
     x-on:click="isOpen = !isOpen, overFlow=!overFlow"
     x-show="isOpen"
     x-cloak
-    class="bg-gray-500 fixed inset-0 w-full h-full opacity-50 z-10 cursor-default"
+    class="fixed inset-0 z-10 w-full h-full bg-gray-500 opacity-50 cursor-default"
   ></div>
 
   <div
     x-show="isOpen"
     x-cloak
-    class="z-20 bg-purple-800 w-48 h-64 rounded-md absolute top-6 p-2 text-white overflow-y-auto"
+    class="absolute z-20 w-48 h-64 overflow-y-auto font-medium rounded shadow-md text-grey-800 bg-slate-100 top-6"
   >
-    <ul class="flex flex-col items-center justify-center">
+    <ul class="flex flex-col items-center justify-center w-full">
       {% for category in categories %}
-      <li>
-        <a href="{% url 'mybooksite:category' category.pk %}">{{ category }}</a>
-      </li>
+      <a class="w-full" href="{% url 'mybooksite:category' category.pk %}">
+        <li class="flex justify-center py-2 hover:bg-purple-600 hover:text-white">
+          {{ category }}
+        </li>
+      </a>  
       {% endfor %}
     </ul>
   </div>

@@ -1,11 +1,11 @@
 {% load static %}
 <!--card-->
-<div class="py-2 px-2 min-h-full flex flex-col justify-between space-y-3">
+<div class="flex flex-col justify-between min-h-full px-2 py-2 space-y-3 text-gray-800">
   <a href="{% url 'mybooksite:detail' book.pk %}">
     <!--img-->
-    <div class="flex justify-center items-center">
+    <div class="flex items-center justify-center">
       <div
-        class="outline outline-1 outline-gray-400 rounded-md overflow-hidden"
+        class="overflow-hidden rounded-lg shadow outline outline-1 outline-gray-400 hover:outline-purple-600 hover:outline-2"
       >
         <img
           class="w-36 h-44"
@@ -18,50 +18,51 @@
 
   <!--rating-->
   <div class="flex justify-center">
-    {% for num in mylist %} {% if book.rating >= num %}
-    <svg
-      class="text-yellow-500 h-5 w-5"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-      />
-    </svg>
-    {%else%}
-    <svg
-      class="h-5 w-5"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-      />
-    </svg>
-   
-    </svg>
-    {% endif%} {% endfor %}
+    {% for num in mylist %}
+      {% if book.rating >= num %}
+        <svg
+          class="w-5 h-5 text-yellow-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+          />
+        </svg>
+      {%else%}
+        <svg
+          class="w-5 h-5 text-gray-500 hover:text-yellow-500"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+          />
+        </svg>
+      {% endif%} 
+    {% endfor %}
   </div>
+
   <!--title-->
-  <div class="line-clamp-1 text-center font-semibold text-base">
+  <div class="text-base font-semibold text-center line-clamp-1">
     <p class="">{{ book.title }}</p>
   </div>
   <!--subtitle-->
   <div
-    class="font-normal text-xs text-center flex justify-center items-center line-clamp-3"
+    class="flex items-center justify-center text-xs font-normal text-center line-clamp-3"
   >
     {{ book.description|truncatewords:30 }}
   </div>
   <!--price-->
   <div class="font-semibold text-center">$ {{book.price}}</div>
   <!--in_stock-->
-  <div class="flex justify-center items-center">
+  <div class="flex items-center justify-center">
     <div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-4 w-4"
+        class="w-4 h-4"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -77,12 +78,15 @@
     <div>{{ book.is_in_stock }}</div>
   </div>
   <!--addtocart btn-->
-  <div class="flex justify-center items-center">
-    <a
-      href="{% url 'carts:add_to_cart' book.pk %}"
-      class="px-4 py-2 w-full text-center rounded-full bg-black text-white text-xs font-semibold shadow-md mt-2"
+  <div class="flex items-center justify-center">
+    <button
+      hx-post="{% url 'carts:add_to_cart' book.pk %}"
+      hx-trigger="click"
+      hx-swap="outerHtml"
+      hx-target="#alert"
+      class="w-full px-4 py-2 mt-2 text-xs font-semibold text-center text-white bg-purple-600 rounded-full shadow-md hover:bg-purple-700"
     >
       add to cart
-    </a>
+  </button>
   </div>
 </div>

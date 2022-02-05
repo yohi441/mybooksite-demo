@@ -1,16 +1,46 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="max-w-[80%] container mt-5">
+<div class="max-w-[80%] container mt-5 text-gray-800">
+
   <h2 class="text-2xl">Cart</h2>
 
   <div id="cart-card" class="mt-10">
 
-    <!--cart card-->
-    {% include 'carts/partials/partial_cart.html' %}
+    {% for item in cart.books.all %}
+    <div
+      id="cart-card"
+      class="flex flex-col items-center py-5 my-5 space-y-5 text-gray-800 bg-white border border-gray-300 rounded-md shadow-lg sm:justify-between sm:pl-6 sm:flex-row"
+    >
+      <div class="border border-gray-300 rounded-sm w-36">
+        <a href="{% url 'mybooksite:detail' item.id %}">
+          <img
+            class="w-36 h-44 hover:ring-2 hover:ring-purple-600"
+            src="http://127.0.0.1:8000/media/{{item.thumbnail}}"
+          />
+        </a>
+      </div>
+      <div class="flex flex-col justify-center space-y-3">
+        <h3>Title: {{ item.title }}</h3>
+        <p>Price: ${{item.price}}</p>
+      </div>
+      <div class="flex items-center mx-10">
+        <button
+          class="px-3 py-3 text-white bg-purple-600 rounded-md hover:bg-purple-700"
+          hx-delete="{% url 'carts:cart_item_delete' item.id %}"
+          hx-confirm="Are you sure you want to delete?"
+          hx-target="#cart-card"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+    {% endfor %}
+    
     
   </div>
-  <div>Quantity: {{count}}</div>
+  <div>Quantity: <span x-text="xcount"></span></div>
   <div>Total:$ {{total}}</div>
+  
 </div>
-</div>
+
 {% endblock content %}

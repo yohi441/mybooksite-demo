@@ -1,8 +1,8 @@
-<div class="flex flex-col ml-3 sm:ml-0">
-  <h2 class="font-semibold text-xl sm:text-2xl md:text-3xl lg:text-5xl">
+<div class="flex flex-col ml-3 text-gray-800 sm:ml-0">
+  <h2 class="text-xl font-semibold sm:text-2xl md:text-3xl lg:text-5xl">
     Never stop learning
   </h2>
-  <h2 class="font-semibold text-xl sm:text-2xl md:text-3xl lg:text-5xl lg:mt-4">
+  <h2 class="text-xl font-semibold sm:text-2xl md:text-3xl lg:text-5xl lg:mt-4">
     Order your books
   </h2>
   {% if not user.is_authenticated %}
@@ -11,7 +11,7 @@
       <button
         href="{% url 'accounts:register' %}"
         id="joinBtn"
-        class="flex items-center justify-center bg-black text-white p-2 rounded-sm shadow-md font-medium text-lg lg:text-2xl lg:mt-4"
+        class="flex items-center justify-center p-2 text-lg font-medium text-white bg-purple-600 rounded-sm shadow-md hover:bg-purple-700 lg:text-2xl lg:mt-4"
       >
         Join now
       </button>

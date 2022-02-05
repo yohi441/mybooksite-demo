@@ -1,3 +1,4 @@
+import http
 from re import template
 from django.http import HttpResponse, request
 from django.http.response import HttpResponseRedirect
@@ -6,6 +7,7 @@ from .models import Cart
 from mybooksite.models import Book
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.template import loader
 
 
 
@@ -34,19 +36,28 @@ def cart_view(request, pk):
 
 @login_required(login_url='accounts/login')
 def add_to_cart(request, pk):
+    template = 'carts/partials/add_to_cart_alert.html'
+    template_exist = 'carts/partials/add_to_cart_book_exist.html'
+    template_error = 'carts/partials/add_to_cart_book_error.html'
     try:
         cart = Cart.objects.get(user=request.user.id)
         book = Book.objects.get(pk=pk)
 
         if book in cart.books.all():
-            HttpResponse("book is already in cart")
+            return render(request, template_exist)
 
     except:
-        HttpResponse("book is not found")
-    
-    cart.books.add(book)
+        return render(request, template_error)
 
-    return HttpResponseRedirect(reverse('carts:cart', args=(int(request.user.id),)))
+    cart.books.add(book)
+    count = cart.books.count()
+    
+    if request.method == "POST":
+        return render(request, template, {'new_count':count})
+
+    
+
+    # return HttpResponseRedirect(reverse('carts:cart', args=(int(request.user.id),)))
 
 
 
@@ -60,9 +71,11 @@ def cart_item_delete(request, pk):
             cart = Cart.objects.get(user=request.user.id)
             book = Book.objects.get(pk=pk)
             cart.books.remove(book)
+            count = cart.books.count()
 
             context = {
-                'cart': cart
+                'cart': cart,
+                'new_count': count,
             }
 
             return render(request, template, context)
@@ -71,3 +84,5 @@ def cart_item_delete(request, pk):
             HttpResponse("Error occured please try again")
             
     return HttpResponseRedirect(reverse('carts:cart', args=(int(request.user.id),)))
+
+
