@@ -1,0 +1,8 @@
+<div>
+    {%for order in user_orders%}
+        <p>{{order.user.profile.address}}</p>
+        <p>{{order.user.first_name}}</p>
+        <p>{{order.books.all}}</p>
+        <p>{{order.total}}</p>
+    {%endfor%}
+</div>

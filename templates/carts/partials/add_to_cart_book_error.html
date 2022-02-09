@@ -1,5 +1,4 @@
-{% extends 'base.html' %}
-{% block content %}
+
 
 <div id="alert" class="container fixed inset-x-0 px-4 top-9" x-data="{isAlert:true}" x-cloak x-show="isAlert" x-effect="overFlow=true">
     <div class="fixed inset-0 bg-gray-300 opacity-50 -z-10" @click="isAlert=false, overFlow=!overFlow">
@@ -15,12 +14,12 @@
         <div class="px-4 py-2 -mx-3">
             <div class="mx-3">
                 <span class="font-semibold text-red-500">Error</span>
-                <p class="text-sm text-gray-800">Error occured</p>
+                <p class="text-sm text-gray-800">Error occured login required</p>
             </div>
         </div>
     </div>
     
 </div>
 
-{% endblock %}
+
 

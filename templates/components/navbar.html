@@ -18,7 +18,7 @@
 
       <!--cart icon-->
       {% if user.is_authenticated %}
-        <a href="{% url 'carts:cart' user.pk %}">
+        <a href="{% url 'carts:cart' %}">
           <div class="flex">
             <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +56,7 @@
       
     {% endif %}
     </div>
+      
     <!--hamburger button-->
     <div
       x-data="{bBtnOpen: false}"
@@ -79,7 +80,7 @@
           />
         </svg>
       {% else %}
-        <div x-on:click="isOpen=!isOpen, overFlow=!overFlow">
+        <div class="flex items-center space-x-2" x-on:click="isOpen=!isOpen, overFlow=!overFlow">         
           {% include 'components/user_nav_button.html' %}
         </div>
         <div class="absolute right-0 z-50 top-9">

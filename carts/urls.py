@@ -3,7 +3,10 @@ from django.urls import path
 from carts.views import (
     cart_view,
     add_to_cart,
-    cart_item_delete
+    cart_item_delete,
+    checkbox_check,
+    recent_order,
+    list_of_orders
 )
 
 
@@ -11,8 +14,11 @@ from carts.views import (
 app_name="carts"
 urlpatterns = [
 
-    path('<int:pk>/', cart_view, name="cart"),
+    path('', cart_view, name="cart"),
     path('add-to-cart/<int:pk>/', add_to_cart, name="add_to_cart"),
+    path('checkout', checkbox_check, name="checkout"),
+    path('recent-order', recent_order, name="recent_order"),
+    path('orders', list_of_orders, name='orders')
 ]
 
 htmx_urlpatterns = [

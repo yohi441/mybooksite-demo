@@ -1,0 +1,29 @@
+<div id="edit-profile" class="space-y-3 text-lg font-semibold text-gray-800 md:text-left">
+    <p>
+      Firstname: <span class="font-normal">{{user.first_name}}</span>
+    </p>
+    <p>
+      Lastname: <span class="font-normal">{{user.last_name}}</span>
+    </p>
+    <p>
+      Email: <span class="font-normal">{{user.email}}</span>
+    </p>
+    <p>
+      Address: <span class="font-normal">{{profile.address}}</span>
+    </p>
+    <p>
+      Cellphone number: <span class="font-normal">{{profile.cellphone_number}}</span>
+    </p>
+    <p>
+      Gender: <span class="font-normal">{{profile.gender}}</span>
+    </p>
+    <p>
+      Avatar: <img class="w-8 h-8" src="http://127.0.0.1:8000/media/{{profile.avatar}}" alt="avatar">
+    </p>
+
+    <button hx-get="{% url 'accounts:edit_profile' %}"
+            hx-trigger="click"
+            hx-swap="outerHTML"
+            hx-target="#edit-profile"
+     class="px-3 py-2 text-white bg-purple-600 rounded-sm hover:bg-purple-700">Edit</button>
+  </div>

@@ -1,0 +1,10 @@
+<div>
+    <h1 class="text-2xl">
+        Recent Order
+    </h1>
+    <p>{{request.user.first_name}} {{request.user.last_name}}</p>
+    {% for book in list_of_books %}
+        <p>{{book.title}}</p>
+    {% endfor %}
+    <p>total: <span>{{total}}</span></p>
+</div>

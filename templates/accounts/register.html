@@ -14,7 +14,7 @@
         {{form.username.errors}}
       </div>
       {% else %}
-      <div id="username-error" class="pb-2 mx-6 mt-2 text-xs"></div>
+      <div id="username-error" class="pb-2 mx-6 mt-2 text-xs text-green-600"></div>
       {% endif %}
       <div class="flex items-center justify-center">
         <input
@@ -36,7 +36,8 @@
         {{form.email.errors}}
       </div>
       {% else %}
-      <div id="invalid-email" class="pb-2 mx-6 mt-2 text-xs"></div>
+      <div id="invalid-email" class="pb-2 mx-6 mt-2 text-xs text-green-600">
+      </div>
       {% endif %}
       <div class="flex items-center justify-center">
         <input

@@ -1,9 +1,10 @@
 import re
 
-from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth import logout, login
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 from accounts.forms import RegisterForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.mail import send_mail, BadHeaderError
@@ -14,6 +15,12 @@ from django.db.models.query_utils import Q
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from carts.views import get_count_cart
+from .forms import ProfileForm
+from .models import Profile
+from django.contrib.auth.decorators import login_required
+
+
 
 
 
@@ -36,7 +43,8 @@ def login_view(request):
             return redirect('/')
 
     context = {
-        'form':form
+        'form':form,
+        'count': 0
     }
 
     return render(request, template, context)
@@ -95,25 +103,12 @@ def check_email(request):
     if request.method == "POST":
         email = request.POST.get('email')
         if email:
-            print(email)
             if re.search(regex, email):
-                context = {
-                    'msg': 'Valid email',
-                    'color': 'text-green-600'
-                    }
-                return render(request, "accounts/partials/invalid_email.html", context)
+                return render(request, "accounts/partials/valid_email.html")
             else:
-                context = {
-                    'msg': 'Invalid email',
-                    'color': 'text-red-700'
-                    }
-                return render(request,"accounts/partials/invalid_email.html", context)
-        else:
-            context = {
-                'msg': 'This field is required',
-                'color': 'text-red-700',
-            }
-            return render(request, "accounts/partials/invalid_email.html", context)
+                return render(request,"accounts/partials/invalid_email.html")
+        else:          
+            return render(request, "accounts/partials/invalid_email_field_required.html")
     else:
         return redirect('accounts:register')
         
@@ -127,15 +122,16 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('mybooksite/index')  
+            return redirect('mybooksite:index')  
 
     else:
         form = RegisterForm()
         if request.user.is_authenticated:
-            return redirect('mybooksite/index')
+            return redirect('mybooksite:index')
 
     context = {
-        'form': form
+        'form': form,
+        'count':0
     }
     
     return render(request, template, context)
@@ -175,3 +171,61 @@ def password_reset_request(request):
     }
     
     return render(request, 'accounts/password_reset.html', context)
+
+
+@login_required
+def profile_view(request):
+    template = 'profile.html'
+    template_edit = 'accounts/partials/profile.html'
+    
+    count = get_count_cart(request)
+    
+    profile = Profile.objects.get(user=request.user)
+    user = User.objects.get(pk=request.user.pk)
+
+    context = {
+        'count': count,
+        'profile': profile,
+        'user': user
+    }
+
+    if request.method == 'POST':
+
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            
+            return render(request, template_edit, context)
+
+    return render(request, template, context)
+
+
+def profile_edit(request):
+    template = "accounts/partials/edit_profile.html"
+
+    if request.method == 'POST':
+        
+        
+        instance = Profile.objects.get(user=request.user)
+        form = ProfileForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            instance.user.first_name = first_name
+            instance.user.last_name = last_name
+            instance.user.email = email
+            instance.user.save()
+            form.save()
+            return HttpResponseRedirect(reverse('accounts:profile'))
+            
+    form = ProfileForm()
+
+    
+
+    context = {
+        "form": form
+    }
+
+    return render(request, template, context)
+
+

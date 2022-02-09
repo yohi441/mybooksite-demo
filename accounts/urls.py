@@ -1,6 +1,5 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth.views import (
-    PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
     PasswordResetCompleteView,
@@ -14,11 +13,14 @@ from accounts.views import (
     login_view,
     check_username,
     check_email,
-    password_reset_request
+    password_reset_request,
+    profile_view,
+    profile_edit,
 )
 
 app_name = "accounts"
 urlpatterns = [
+    path('profile/', profile_view, name='profile'),
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
     path('register/', register_view, name='register'),
@@ -33,6 +35,7 @@ urlpatterns = [
 htmx_urlpatterns = [
     path('check-username/', check_username, name="check_username"),
     path('check-email/', check_email, name='check_email'),
+    path('edit-profile', profile_edit, name='edit_profile'),
 ]
 
 urlpatterns += htmx_urlpatterns

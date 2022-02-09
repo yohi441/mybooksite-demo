@@ -31,8 +31,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 3rd party
     "django_htmx",
-    "crispy_forms",
-    "crispy_tailwind",
     # my apps
     "mybooksite.apps.MybooksiteConfig",
     "accounts.apps.AccountsConfig",

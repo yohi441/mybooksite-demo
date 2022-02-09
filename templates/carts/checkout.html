@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Checkout</h1>
+<form action="{% url 'carts:recent_order' %}" method="post">
+  {% csrf_token %}
+  {% for book in books %}
+    <input class="hidden" type="checkbox" name="books" checked="true" value="{{book.pk}}">
+    <p>{{book.title}}</p>
+    <p>{{book.price}}</p>
+  {% endfor %}
+  <p>total: {{total}}</p>
+
+  <button type="submit">
+    Submit Order
+  </button>
+</form>
+{% endblock %}

@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     books = models.ManyToManyField(Book, blank=True)
-    total = models.DecimalField(max_digits=100, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -15,6 +14,17 @@ class Cart(models.Model):
     def __str__(self):
 
         return self.user.username
+
+
+class Checkout(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    books = models.ManyToManyField(Book)
+    total = models.DecimalField(max_digits=100, decimal_places=2, default=0.00)
+
+
+    def __str__(self):
+        return self.user.username
+    
 
 
 
