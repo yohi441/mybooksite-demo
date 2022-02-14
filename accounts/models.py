@@ -4,20 +4,23 @@ from django.contrib.auth.models import User
 
 
 
-class Profile(models.Model):
-
-    gender_choice = (
+gender_choice = (
         ("Male","Male"),
         ("Female", "Female"),
         ("Other", "Other"),
     )
+
+class Profile(models.Model):
+
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     avatar = models.ImageField(upload_to="avatar", default="default.jpg")
-    address = models.CharField(max_length=100, null=True, blank=True)
-    cellphone_number = models.PositiveIntegerField(null=True, blank=True)
-    gender = models.CharField(max_length=6, choices=gender_choice, default="Other")
+    address = models.CharField(max_length=100, null=True)
+    cellphone_number = models.PositiveIntegerField(null=True)
+    gender = models.CharField(max_length=6, choices=gender_choice, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):

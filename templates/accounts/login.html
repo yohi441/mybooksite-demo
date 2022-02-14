@@ -1,11 +1,21 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container max-w-[80%] md:max-w-[60%] lg:max-w-[40%] my-10 shadow-md">
-  <div id="loginForm" class="w-full overflow-hidden text-gray-800 bg-white rounded-lg">
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container max-w-[80%] my-10">
+
+  <div id="loginForm" class="max-w-md mx-auto overflow-hidden text-gray-800 bg-white rounded-lg shadow-md">
+
     <div class="py-5 ml-6 text-2xl font-semibold">
+
       <h2>Sign in</h2>
+
     </div>
+
     {% if form.non_field_errors %}
+
     <div class="ml-6 -mt-3 text-xs text-red-700">{{form.non_field_errors}}</div>
+    
     {% endif %}
     <form action="{% url 'accounts:login' %}" method="post">
       {% csrf_token %}

@@ -1,17 +1,131 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1>Checkout</h1>
-<form action="{% url 'carts:recent_order' %}" method="post">
-  {% csrf_token %}
-  {% for book in books %}
-    <input class="hidden" type="checkbox" name="books" checked="true" value="{{book.pk}}">
-    <p>{{book.title}}</p>
-    <p>{{book.price}}</p>
-  {% endfor %}
-  <p>total: {{total}}</p>
 
-  <button type="submit">
-    Submit Order
-  </button>
-</form>
+  <div class="container max-w-[80%] mt-5">
+
+    <h1 class="mb-2 text-2xl">
+      
+      Checkout
+    
+    </h1>
+
+    <div class="flex p-2 space-x-2 text-gray-700 border border-purple-300 rounded-sm shadow-md">
+
+      <div>
+
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-10 h-10 text-purple-700" 
+             fill="none" 
+             viewBox="0 0 24 24" 
+             stroke="currentColor">
+
+          <path stroke-linecap="round" 
+                stroke-linejoin="round" 
+                stroke-width="2" 
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        
+        </svg>
+        
+      </div>
+      
+
+      <div class="text-purple-900">
+
+        <p>
+
+          Make sure your personal information is updated before making an order
+          
+        </p>
+  
+        <p>
+  
+          go to your profile and update your information there
+  
+        </p>
+        
+      </div>
+
+    </div>
+
+    <div class="p-2 my-3 overflow-auto text-gray-700 border-2 border-purple-300 border-dashed rounded-sm shadow-md">
+      <div>
+        <p>Name: <span>{{request.user.first_name}} {{request.user.last_name}}</span></p>
+      </div>
+      <div>
+        <p>Address: <span>{{request.user.profile.address}}</span></p>
+      </div>
+      <div>
+        <p>Cellphone number: <span>{{request.user.profile.cellphone_number}}</span></p>
+      </div>
+      <div>
+        <p>Email Address: <span>{{request.user.email}}</span></p>
+      </div>
+      
+    </div>
+    
+    <form class="mt-10" action="{% url 'carts:recent_order' %}" method="post">  
+
+      {% csrf_token %}
+
+      {% if total > 0 %}
+
+        <p class="mb-10 text-xl text-gray-800">
+          
+          Total: <span class="text-2xl text-purple-600">${{total}}</span> 
+
+        </p>
+
+      {% endif %}
+    
+      {% for book in books %}
+
+        <input class="hidden" type="checkbox" name="books" checked="true" value="{{book.pk}}">
+        
+        <div class="flex items-center mb-2 space-x-2 shadow-sm">
+
+          <div class="flex-none w-20 h-20 overflow-hidden border border-gray-500 rounded-md">
+            
+            <img class="object-cover w-full h-full"
+                 src="http://127.0.0.1:8000/media/{{book.thumbnail}}" 
+                 alt="{{book.title}}">
+        
+          </div>
+          
+          <div>
+
+            <p class="font-semibold text-gray-800">Title: <span class="font-normal text-gray-900 line-clamp-1">{{book.title}}</span></p>
+            <p class="font-semibold text-gray-800">Price: <span class="font-normal text-gray-900">${{book.price}}</span></p>
+
+          </div>
+          
+
+        </div>
+      
+
+        {% empty %}
+
+        <p class="text-xl">
+
+          Please select items in your cart to place an order
+
+        </p>
+        
+      {% endfor %}
+      
+      {% if total > 0 %}
+
+        <button class="px-3 py-2 mt-5 font-medium text-white bg-purple-600 rounded-md shadow-sm hover:bg-purple-700" type="submit">
+
+          Submit Order
+          
+        </button>
+
+      {% endif %}
+      
+      
+
+    </form>
+
+  </div>
+
 {% endblock %}

@@ -102,10 +102,10 @@
         },
         "faker": {
             "hashes": [
-                "sha256:534c9410cd003b794900504d37f0afaf8275bfe8865583250799f696cf227cd3",
-                "sha256:820e55f62b428a4d55f6700358167e84a6ba3f8371e9ef39f9ca03a504dcae18"
+                "sha256:1dc2811f20e163892fefe7006f2ce00778f8099a40aee265bfa60a13400de63d",
+                "sha256:aa7103805ae793277abbb85da9f6f05e76a1a295a9384a8e17c2fba2b3a690cb"
             ],
-            "version": "==12.1.0"
+            "version": "==12.0.1"
         },
         "iniconfig": {
             "hashes": [
@@ -116,11 +116,11 @@
         },
         "mixer": {
             "hashes": [
-                "sha256:7cc84aecea63144a12dd295ee6d407cd02298d1698e4794193e0776568788a78",
-                "sha256:d5d6466bd6227f9d3c5002b443f01ca13f4cd8dc3bd5f7715f0788dc9632975f"
+                "sha256:1ba97631092d6cc139173500b12a2296791bf28948dfc05f1103044c6ae8b494",
+                "sha256:a9e5e391fe4656b595aaa1f1e8123802d140b8b0cc7ea0688403f324443b80fe"
             ],
             "index": "pypi",
-            "version": "==7.2.0"
+            "version": "==7.2.1"
         },
         "packaging": {
             "hashes": [
@@ -253,10 +253,10 @@
         },
         "tomli": {
             "hashes": [
-                "sha256:b5bde28da1fed24b9bd1d4d2b8cba62300bfb4ec9a6187a957e8ddb9434c5224",
-                "sha256:c292c34f58502a1eb2bbb9f5bbc9a5ebc37bee10ffb8c2d6bbdfa8eb13cc14e1"
+                "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc",
+                "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"
             ],
-            "version": "==2.0.0"
+            "version": "==2.0.1"
         }
     },
     "develop": {}

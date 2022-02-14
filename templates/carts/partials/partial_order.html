@@ -1,0 +1,33 @@
+<div id="order-card" class="p-2 border border-gray-300 rounded-md">
+  <div>
+    
+  </div>
+  {%for order in user_orders%}
+    <div class="py-2 my-3 space-y-2 border-t border-b border-gray-300">
+      <p>Date: {{order.created_at}}</p>
+      <p>Quantity: {{order.books.all.count}}</p>
+      <p>Total: ${{order.total}}</p>
+      <a href="{% url 'carts:detail_order' order.id %}">
+        <button class="px-3 py-2 text-xs text-white bg-purple-600 rounded-md shadow hover:bg-purple-700">
+          See list
+        </button>
+      </a>
+      <button class="px-3 py-2 text-xs text-white bg-red-600 rounded-md shadow hover:bg-red-700"
+              hx-delete="{% url 'carts:delete_order' order.id %}"
+              hx-confirm="Are you sure you want to delete?"
+              hx-target="#order-card"
+              hx-swap="outerHTML">
+        Cancel Order
+      </button>
+    </div>
+
+    {% empty %}
+
+        <p class="text-xl">
+
+          No recent orders
+
+        </p>
+    
+  {%endfor%}
+</div>

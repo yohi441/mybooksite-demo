@@ -16,6 +16,7 @@ from accounts.views import (
     password_reset_request,
     profile_view,
     profile_edit,
+    register_success,
 )
 
 app_name = "accounts"
@@ -23,6 +24,7 @@ urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
+    path('register-success/', register_success, name="register_success"),
     path('register/', register_view, name='register'),
     path('password-change/', PasswordChangeView.as_view(template_name="accounts/password_change.html"), name='password_change'),
     path('password-change-done/', PasswordChangeDoneView.as_view(template_name="accounts/password_change_done.html"), name='password_change_done'),

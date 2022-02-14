@@ -1,45 +1,73 @@
 {% load static %}
+
 {% load django_htmx %}
+
 <!DOCTYPE html>
+
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mybooksite</title>
+
+    <title>
+
+      Mybooksite
+
+    </title>
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <style>
+
       [x-cloak] { display: none; }
+
     </style>
     
   </head>
-  <body class="text-sm bg-slate-100 font-inter" x-data="{overFlow:false, xcount:{{count}}}" :class="[overFlow ? 'overflow-hidden':'overflow-auto']" x-cloak>
+
+  <body class="text-sm bg-slate-100 font-inter"
+        x-data="{overFlow:false, xcount:{{count}}}"
+        x-bind:class="[overFlow ? 'overflow-hidden':'overflow-auto']" x-cloak
+  >
  
     <header>
+
       {% include 'components/navbar.html' %}
+
     </header>
+
     <div class="min-h-[80vh]">
+
       {% block content %}
       
       {% endblock content %}
+
     </div>
     
+    <footer class="mt-3">
 
-    
-      <footer class="mt-3">
-        {% include 'components/footer.html' %}
+      {% include 'components/footer.html' %}
+
     </footer>
-    </div>
 
+    <script defer src="https://unpkg.com/htmx.org@1.6.1"></script>
 
-    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script>
+
       document.body.addEventListener('htmx:configRequest', (event) => {
+
         event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+
       })
+
     </script>
    
   </body>
+  
 </html>

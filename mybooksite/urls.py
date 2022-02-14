@@ -18,3 +18,7 @@ urlpatterns = [
     path('about-us/', about_us_view, name="about_us"),
     
 ]
+
+
+
+

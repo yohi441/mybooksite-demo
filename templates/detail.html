@@ -1,50 +1,128 @@
 {% extends 'base.html' %}
-<!--alert section-->
 
 {% block content %}
 
-<div id="alert" class="fixed inset-x-0 top-9"></div>
+  <!--alert section-->
+  <div id="alert" class="fixed inset-x-0 top-9"></div>
 
-<div class="-z-10 mx-auto border bg-white shadow-md border-gray-400 rounded-md md:px-5 md:border-none md:flex-row md:justify-between md:items-start md:space-x-5 py-3 max-w-[80%] mt-10 flex flex-col container items-center justify-center">
+  <div class="-z-10 mx-auto border
+            bg-white shadow-md border-gray-400
+              rounded-md md:px-5 md:border-none
+              md:flex-row md:justify-between
+              md:items-start md:space-x-5 
+              py-3 max-w-[80%] mt-10 flex 
+              flex-col container 
+              items-center 
+              justify-center"
+  >
 
-  <div class="border border-gray-400 rounded ">
-    <img class="w-36 h-44 md:w-auto md:h-auto"  src="http://127.0.0.1:8000/media/{{book.img}}" alt="{{ book.title }}" />
+    <div class="overflow-hidden border border-gray-400 rounded ">
+
+      <img class="w-36 h-44 md:w-auto md:h-auto"
+          src="http://127.0.0.1:8000/media/{{book.img}}"
+          alt="{{ book.title }}"
+      />
+      
+    </div>
+
+    <div class="container p-5 text-gray-800 md:border-gray-400 md:border md:rounded-sm md:w-[55%] lg:w-[70%]">
+      
+      <h2 class="mb-4">
+
+        Title: {{ book.title }}
+
+      </h2>
+
+      <p class="mb-4">
+
+        Price: ${{ book.price }}
+
+      </p>
+
+      <p class="mb-4">
+        
+        Rating: {{ book.rating }}
+      
+      </p>
+
+      <p class="mb-4">
+        
+        Quantity: {{ book.quantity }}
+      
+      </p>
+
+      <div x-data="{isLineClamp:true}" class="mb-5">
+
+        <p x-bind:class="[isLineClamp? 'line-clamp-5': 'line-clamp-none']">
+          
+          Description: {{ book.description }}
+        
+        </p>
+        
+        <button x-on:click="isLineClamp = !isLineClamp" 
+
+                class="text-purple-600 hover:text-purple-700" 
+
+                x-text="[isLineClamp? 'Show more...':'Show less...']">
+
+        </button>
+
+      </div>
+
+      <div class="mb-5">
+
+        {% if user.is_authenticated%}
+        
+          <button hx-target="#alert" 
+                  hx-swap="outerHtml"
+                  hx-trigger="click"  
+                  hx-post="{% url 'carts:add_to_cart' book.id %}" 
+                  class="px-3 py-2 text-center text-white bg-purple-600 rounded first-letter:font-medium hover:bg-purple-700"
+          >
+
+            Add to cart
+
+          </button>
+
+        {% endif %}
+        
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="container p-5 text-gray-800 md:border-gray-400 md:border md:rounded-sm md:w-[55%] lg:w-[70%]">
+
+  <div class="mb-5 space-y-3 text-gray-800 mt-14">
+
+    {% if recently_viewed_book %}
+
+      <h3 class="flex justify-center">
+
+        Recently viewed
+        
+      </h3>
+      
+      <div class="container flex items-center justify-center mx-auto space-x-2 max-w-[90%]">
+
+        {% for recent_book in recently_viewed_book %}
+
+          <a href="{% url 'mybooksite:detail' recent_book.pk %}">
+            
+            <img class="w-20 h-32 border border-gray-300 rounded hover:ring-1 hover:ring-purple-600" 
+                 src="http://127.0.0.1:8000/media/{{recent_book.thumbnail}}" 
+                 alt="" 
+            />
+          
+          </a>
+          
+        {% endfor %}
+
+      </div>
+
+    {%endif%}
     
-    <h2 class="mb-4">Title: {{ book.title }}</h2>
-    <p class="mb-4">Price: ${{ book.price }}</p>
-    <p class="mb-4">Rating: {{ book.rating }}</p>
-    <p class="mb-4">Quantity: {{ book.quantity }}</p>
-    <div x-data="{isLineClamp:true}" class="mb-5">
-      <p :class="[isLineClamp? 'line-clamp-5': 'line-clamp-none']">Description: {{ book.description }}</p>
-      <button @click="isLineClamp = !isLineClamp" class="text-purple-600 hover:text-purple-700" x-text="[isLineClamp? 'Show more...':'Show less...']"></button>
-    </div>
-    <div class="mb-5">
-      {% if user.is_authenticated%}
-        <button hx-target="#alert" hx-swap="outerHtml" hx-trigger="click"  hx-post="{% url 'carts:add_to_cart' book.id %}" class="px-3 py-2 font-medium text-center text-white bg-purple-600 rounded hover:bg-purple-700">Add to cart</button>
-      {% endif %}
-    </div>
-
   </div>
-
-</div>
-
-
-<div class="mb-5 space-y-3 text-gray-800 mt-14">
-  {% if recently_viewed_book %}
-    <h3 class="flex justify-center">Recently viewed</h3>
-    <div class="container flex items-center justify-center mx-auto space-x-2 max-w-[90%]">
-    {% for recent_book in recently_viewed_book %}
-      <a href="{% url 'mybooksite:detail' recent_book.pk %}">
-      <img class="w-20 h-32 border border-gray-300 rounded hover:ring-1 hover:ring-purple-600" src="http://127.0.0.1:8000/media/{{recent_book.thumbnail}}" alt="" />
-      </a>
-    {% endfor %}
-    </div>
-  {%endif%}
-  
-</div>
 
 
 {% endblock content %}

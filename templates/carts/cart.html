@@ -1,77 +1,197 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
 
-<div class="max-w-[80%] container mt-5 text-gray-800">
-  <h2 class="text-2xl">Cart</h2>
+{% block content %}
 
-  <div id="cart-card" class="mt-10" x-data="{
-    ischeck:false,
-    myList:[],
-    checkboxLabel: 'Select all', 
-    fullList:{{item_in_cart}},
-    selectAll() {
-    if (this.ischeck===false){
-        this.myList=this.fullList
-        this.ischeck=true
-        this.checkboxLabel='Deselect all'
-    }
-    else{
-        this.myList=[]
-        this.ischeck=false
-        this.checkboxLabel = 'Select all'
-    }
-  }}">
-    {% if cart.books.all %}
-      <div class="flex items-center space-x-2">
-        <input class="text-purple-600 rounded focus:ring-purple-600 hover:ring-purple-600" type="checkbox" @click="selectAll()">
-        <p x-text="checkboxLabel"></p>
-      </div>
-    {% endif %}
-    <form action="{% url 'carts:checkout' %}" method="post">
-      {% csrf_token %}
-      {% for item in cart.books.all %}
-      <div class="flex flex-col items-center py-5 my-5 space-y-5 text-gray-800 bg-white border border-gray-300 rounded-md shadow-lg sm:justify-between sm:pl-6 sm:flex-row"> 
-      <!--img-->
-        <div class="flex items-center -ml-8 space-x-2 sm:ml-0">
-          <!--checkbox-->
-          <input x-model="myList" class="text-purple-600 rounded focus:ring-purple-600 hover:ring-purple-600" type="checkbox" name="checks" value="{{item.pk}}">
-          <a href="{% url 'mybooksite:detail' item.id %}">
-            <img
-              class="border border-gray-300 rounded-sm w-36 h-44 hover:ring-2 hover:ring-purple-600"
-              src="http://127.0.0.1:8000/media/{{item.thumbnail}}"
-            />
-          </a>
-        </div>
-        <!--title-->
-        <div class="flex flex-col items-center justify-center space-y-3">
-          <h3 class="block text-center">Title: {{ item.title }}</h3>
-          <p class="block">Price: ${{item.price}}</p>
-        </div>
-        <!--delete-->
-        <div class="flex items-center mx-10">
-          <button
-            class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700"
-            hx-delete="{% url 'carts:cart_item_delete' item.id %}"
-            hx-confirm="Are you sure you want to delete?"
-            hx-target="#cart-card"
-            hx-swap="outerHTML"
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-      {% endfor %}
-      <div class="flex items-center justify-between">
-        <div>Quantity: <span x-text="xcount"></span></div>
-          {% if cart.books.all %}
-            <div>
-              <button type="submit" class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700">Check out</button>
+  <div class="max-w-[80%] container mt-5 text-gray-800">
+
+    <h2 class="text-2xl">Cart</h2>
+
+    <div id="cart-card" class="mt-10"
+    
+        x-data="{
+
+              ischeck:false,
+
+              myList:[],
+
+              mySelectAll:[],
+
+              checkboxLabel: 'Select all', 
+
+              fullList:{{item_in_cart}},
+
+              removeSelectAll() {
+
+                this.mySelectAll = []
+
+                this.ischeck = false 
+
+                this.checkboxLabel='Select all'
+                
+              },
+
+              selectAll() {
+
+              if (this.ischeck===false){
+
+                  this.myList=this.fullList
+
+                  this.ischeck=true
+
+                  this.checkboxLabel='Deselect all'
+
+                  this.mySelectAll = [1] 
+
+              }
+
+              else {
+
+                  this.myList=[]
+
+                  this.ischeck=false
+
+                  this.checkboxLabel = 'Select all'
+
+              }}}"
+    >
+
+      <form action="{% url 'carts:checkout' %}" method="post">
+
+        {% if cart.books.all %}
+
+          <div class="flex items-center justify-between">
+
+            <div class="flex items-center space-x-2">
+
+              <input x-model="mySelectAll" 
+                  class="text-purple-600 rounded focus:ring-purple-600 hover:ring-purple-600" 
+                  type="checkbox"
+                  value="1" 
+                  x-on:click="selectAll()">
+
+              <p x-text="checkboxLabel"></p>
+              
             </div>
+
+            <div>
+
+              <button type="submit" class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700">
+                  
+                Check out
+              
+              </button>
+              
+            </div>
+
+          </div>
+
+        {% endif %}
+
+      
+
+        {% csrf_token %}
+
+        {% for item in cart.books.all %}
+        
+          <div class="flex flex-col items-center py-5 my-5 space-y-5 text-gray-800 bg-white border border-gray-300 rounded-md shadow-lg sm:justify-between sm:pl-6 sm:flex-row"> 
+            
+            <!--img-->
+            <div class="flex items-center -ml-8 space-x-2 sm:ml-0">
+              
+              <!--checkbox-->
+              <input x-model="myList" 
+                     class="text-purple-600 rounded focus:ring-purple-600 hover:ring-purple-600" 
+                     type="checkbox" 
+                     name="checks" 
+                     value="{{item.pk}}"
+                     x-on:click="removeSelectAll()"
+              >
+              
+              <a href="{% url 'mybooksite:detail' item.id %}">
+                
+                <img
+                  class="border border-gray-300 rounded-sm w-36 h-44 hover:ring-2 hover:ring-purple-600"
+                  src="http://127.0.0.1:8000/media/{{item.thumbnail}}"
+                />
+
+              </a>
+
+            </div>
+
+            <!--title-->
+            <div class="flex flex-col items-center justify-center space-y-3">
+
+              <h3 class="block text-center">
+
+                Title: {{ item.title }}
+              
+              </h3>
+
+              <p class="block">
+
+                Price: ${{item.price}}
+
+              </p>
+
+            </div>
+
+            <!--delete-->
+            <div class="flex items-center mx-10">
+
+              <button
+                class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700"
+                hx-delete="{% url 'carts:cart_item_delete' item.id %}"
+                hx-confirm="Are you sure you want to delete?"
+                hx-target="#cart-card"
+                hx-swap="outerHTML"
+              >
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </div>
+          {% empty %}
+          
+          <div class="mb-5 text-xl">
+
+            <p>Your cart is empty</p>
+
+          </div>
+
+        {% endfor %}
+
+        <div class="flex items-center justify-between">
+
+          <div x-show="xcount > 0">
+
+            Quantity: <span x-text="xcount"></span>
+
+          </div>
+
+          {% if cart.books.all %}
+
+            <div>
+
+              <button type="submit" class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700">
+                
+                Check out
+              
+              </button>
+            
+            </div>
+
           {% endif %}
-      </div>
-  </form>  
+
+        </div>
+
+      </form>  
+
+    </div>
+    
+    
   </div>
-  
-  
-</div>
 
 {% endblock content %}

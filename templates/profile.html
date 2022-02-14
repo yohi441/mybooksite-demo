@@ -1,40 +1,86 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
   <div class="max-w-[80%] container">
-    <h2 class="my-5 text-2xl font-semibold">
+
+    <div class="p-2 mt-5 text-gray-700 border border-purple-300 rounded-sm shadow-md">
+      <p class="text-purple-600">
+        Please edit your profile
+      </p>
+    </div>
+
+    <h2 class="mb-5 text-2xl font-semibold text-gray-800 mt-7">
+
       My Profile
+      
     </h2>
 
-    <div id="edit-profile" class="space-y-3 text-lg font-semibold text-gray-800 md:text-left">
+    <div id="edit-profile" class="mx-auto space-y-3 text-lg font-semibold text-gray-800">
+      
       <p>
-        Firstname: <span class="font-normal">{{user.first_name}}</span>
-      </p>
-      <p>
-        Lastname: <span class="font-normal">{{user.last_name}}</span>
-      </p>
-      <p>
-        Email: <span class="font-normal">{{user.email}}</span>
-      </p>
-      <p>
-        Address: <span class="font-normal">{{profile.address}}</span>
-      </p>
-      <p>
-        Cellphone number: <span class="font-normal">{{profile.cellphone_number}}</span>
-      </p>
-      <p>
-        Gender: <span class="font-normal">{{profile.gender}}</span>
-      </p>
-      <p>
-        Avatar: <img class="w-8 h-8" src="http://127.0.0.1:8000/media/{{profile.avatar}}" alt="avatar">
+        Firstname: <span class="font-normal">
+          {% if request.user.first_name == '' %}None
+          {% else %}
+          {{request.user.first_name}}
+          {% endif %}
+        </span>
       </p>
 
+      <p>
+        Lastname: <span class="font-normal">
+          {% if request.user.first_name == '' %}None
+          {% else %}
+          {{request.user.first_name}}
+          {% endif %}
+          {{request.user.last_name}}</span>
+      </p>
+
+      <p>
+        Email: <span class="font-normal">{{request.user.email}}</span>
+      </p>
+
+      <p>
+        Address: <span class="font-normal">{{request.user.profile.address}}</span>
+      </p>
+
+      <p>
+        Cellphone number: <span class="font-normal">{{request.user.profile.cellphone_number}}</span>
+      </p>
+
+      <p>
+        Gender: <span class="font-normal">{{request.user.profile.gender}}</span>
+      </p>
+
+      <div>
+
+        <p>Avatar:</p>
+
+        <div class="w-12 h-12 overflow-hidden rounded-full">
+
+          <a href="http://127.0.0.1:8000/media/{{request.user.profile.avatar}}">
+          
+            <img class="object-cover w-full h-full" src="http://127.0.0.1:8000/media/{{request.user.profile.avatar}}" alt="avatar">
+        
+          </a>
+          
+        </div>
+        
+      </div>
+        
       <button hx-get="{% url 'accounts:edit_profile' %}"
               hx-trigger="click"
               hx-swap="outerHTML"
               hx-target="#edit-profile"
-       class="px-3 py-2 text-white bg-purple-600 rounded-sm hover:bg-purple-700">Edit</button>
+              class="block px-3 py-2 text-white bg-purple-600 rounded-sm hover:bg-purple-700"
+      >
+      
+        Edit
+       
+      </button>
+    
     </div>
  
   </div>
+  
 {% endblock %}

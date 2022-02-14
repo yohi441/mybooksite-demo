@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
-from PIL import Image
+from django.utils.text import slugify
 
 
 class Book(models.Model):
@@ -13,6 +13,7 @@ class Book(models.Model):
     )
    
     title = models.CharField(max_length=250)
+    slug = models.SlugField(blank=True, null=True)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     rating = models.PositiveIntegerField(choices=rating_choice)
     description = models.TextField()
@@ -21,6 +22,11 @@ class Book(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.slug is None:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
     
     @property
     def is_in_stock(self):
