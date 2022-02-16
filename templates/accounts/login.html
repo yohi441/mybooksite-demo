@@ -14,7 +14,7 @@
 
     {% if form.non_field_errors %}
 
-    <div class="ml-6 -mt-3 text-xs text-red-700">{{form.non_field_errors}}</div>
+    <div class="max-w-sm px-6 -mt-3 text-xs text-red-700">{{form.non_field_errors}}</div>
     
     {% endif %}
     <form action="{% url 'accounts:login' %}" method="post">

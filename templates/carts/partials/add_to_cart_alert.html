@@ -1,7 +1,18 @@
-<div id="alert" class="container fixed inset-x-0 px-4 top-9" x-data="{isAlert:true}" x-cloak x-show="isAlert" x-effect="overFlow=true, xcount={{new_count}}">
-    <div class="fixed inset-0 bg-gray-300 opacity-50 -z-10" @click="isAlert=false, overFlow=!overFlow">
-        <!--invisible button to close the alert-->
-    </div>
+<div x-data="{open:true}" x-show="open" class="fixed inset-0 bg-gray-300 opacity-50 -z-10" x-on:click="$dispatch('modal-close'), open=false, overFlow=!overFlow">
+    <!--invisible button to close the alert-->
+</div>
+<div id="alert" class="container fixed inset-x-0 px-4 top-9" 
+    x-data="{isAlert:false}" 
+    x-cloak x-show="isAlert" 
+    x-effect="overFlow=true, isAlert=true, xcount={{new_count}}"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 scale-90"
+    x-transition:enter-end="opacity-100 scale-100"
+    x-transition:leave="transition ease-in duration-300"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-90"
+    x-on:modal-close.window="isAlert=false"
+>
     <div class="z-50 flex w-full max-w-sm mx-auto overflow-hidden bg-white border border-purple-600 rounded-lg shadow-xl">
         <div class="flex items-center justify-center w-12 bg-purple-600">
             <svg class="w-6 h-6 fill-current text-green-50" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">

@@ -82,7 +82,7 @@
       
     <!--hamburger button-->
     <div
-      x-data="{bBtnOpen: false}"
+      x-data
       class="absolute top-1 right-3 md:hidden"
     >
 
@@ -94,7 +94,7 @@
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          x-on:click="bBtnOpen = !bBtnOpen, overFlow=!overFlow, isOpen=!isOpen"
+          x-on:click="$dispatch('open-side-dropdown'), overFlow=!overFlow, isOpen=!isOpen"
           
         >
           <path
@@ -123,22 +123,26 @@
 
         <!--sidebar--> <!--mobile-nav-->
       {% if not user.is_authenticated %}
-
-        <div x-show="bBtnOpen" x-cloak class="md:hidden" id="sideBar">
-
-          <button
-            class="fixed inset-0 z-10 w-full h-full bg-gray-500 opacity-50 cursor-default"
-            x-on:click="bBtnOpen = !bBtnOpen, overFlow=!overFlow, isOpen=!isOpen">
-          </button>
-
-          <div
-            class="absolute right-0 z-30 overflow-hidden text-gray-800 bg-white rounded shadow-md w-36 top-9">
-
+        <div x-data="{open:false}"
+             x-on:open-side-dropdown.window="open=true"
+        >
+          <div x-show="open"
+               x-on:click="open=false, overFlow=false" 
+               class="fixed inset-0 bg-gray-300 opacity-50"
+          >
+          <!--bg button to close the dropdown-->
+          </div>
+          <div x-show="open" 
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="opacity-0 -translate-y-6"
+              x-transition:enter-end="opacity-100 translate-y-0"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100  translate-y-0"
+              x-transition:leave-end="opacity-0 -translate-y-6" 
+                class="absolute right-0 z-50 overflow-hidden text-gray-800 bg-white rounded shadow-md w-36 top-9">
             <ul
               class="flex flex-col items-center justify-center font-medium text-center text-gray-800"
             >
-
-              {% if not user.is_authenticated %}
 
                 <a class="w-full"href="{% url 'accounts:login'%}">
 
@@ -170,15 +174,13 @@
 
                 </a>
 
-              {% endif %} 
-                  
             </ul>
-            
+
           </div>
 
-          {% endif %}
-          
         </div>
+        
+      {% endif %}
       
     </div>
     
@@ -195,7 +197,7 @@
     class="flex mt-4 lg:mt-5 max-w-[80%] md:max-w-[60%] justify-center items-center mx-auto"
   >
 
-    <div class="relative flex justify-center w-full">
+    <div class="relative flex justify-center w-full -z-10">
 
       <input
         class="block w-full py-1 pl-8 text-sm rounded-md focus:border-purple-600 focus:ring-0"

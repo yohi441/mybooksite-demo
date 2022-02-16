@@ -72,7 +72,7 @@
               <p x-text="checkboxLabel"></p>
               
             </div>
-
+            {% if cart.books.all.count > 4 %}
             <div>
 
               <button type="submit" class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700">
@@ -82,6 +82,7 @@
               </button>
               
             </div>
+            {% endif %}
 
           </div>
 
@@ -95,8 +96,8 @@
         
           <div class="flex flex-col items-center py-5 my-5 space-y-5 text-gray-800 bg-white border border-gray-300 rounded-md shadow-lg sm:justify-between sm:pl-6 sm:flex-row"> 
             
-            <!--img-->
-            <div class="flex items-center -ml-8 space-x-2 sm:ml-0">
+          
+            <div class="flex items-center flex-none -ml-8 space-x-2 sm:ml-0">
               
               <!--checkbox-->
               <input x-model="myList" 
@@ -108,7 +109,7 @@
               >
               
               <a href="{% url 'mybooksite:detail' item.id %}">
-                
+                  <!--img-->
                 <img
                   class="border border-gray-300 rounded-sm w-36 h-44 hover:ring-2 hover:ring-purple-600"
                   src="http://127.0.0.1:8000/media/{{item.thumbnail}}"
@@ -121,7 +122,7 @@
             <!--title-->
             <div class="flex flex-col items-center justify-center space-y-3">
 
-              <h3 class="block text-center">
+              <h3 class="block max-w-md text-center">
 
                 Title: {{ item.title }}
               
@@ -139,17 +140,69 @@
             <div class="flex items-center mx-10">
 
               <button
-                class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700"
-                hx-delete="{% url 'carts:cart_item_delete' item.id %}"
-                hx-confirm="Are you sure you want to delete?"
-                hx-target="#cart-card"
-                hx-swap="outerHTML"
+                x-data
+                class="px-3 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
+                x-on:click.prevent.default="$dispatch('open-modal{{item.id}}')"
               >
-
                 Delete
 
               </button>
 
+            </div>
+
+            <!--Delete Confirm Modal-->
+            <div x-data="{
+              open{{item.id}}:false,
+              
+            }"
+                  x-on:open-modal{{item.id}}.window="open{{item.id}}=true, overFlow=true"
+                  x-show="open{{item.id}}" 
+                  class="fixed inset-0 flex items-center text-gray-800"                
+            >
+              <div class="fixed inset-0 bg-gray-300 opacity-50">
+                <!--modal background gray-->
+              </div>
+              
+              <!--modal cart-->
+              <div x-show="open{{item.id}}"
+                   x-on:click.outside="open{{item.id}}=false, overFlow=false"
+                   x-transition:enter="transition ease-out duration-300"
+                   x-transition:enter-start="opacity-0 -translate-y-6"
+                   x-transition:enter-end="opacity-100 translate-y-0"
+                   x-transition:leave="transition ease-in duration-300"
+                   x-transition:leave-start="opacity-100 translate-y-0"
+                   x-transition:leave-end="opacity-0 -translate-y-6" 
+              class="z-30 flex flex-col items-center p-10 mx-auto space-y-3 bg-white rounded-md shadow-md md:p-20 "
+              >
+        
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-12 h-12 text-red-600" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor">
+                  <path stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        stroke-width="2" 
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+        
+                <p class="text-xl">Are you sure?</p>
+        
+                <p>You want to delete this item?</p>
+                
+                <div class="flex items-center justify-center space-x-2"> <span></span>
+                  <button x-on:click.prevent.default="open{{item.id}}=false, overFlow=false" class="px-3 py-2 text-white bg-red-600 rounded-md hover:bg-red-700">Cancel</button>
+                  <button class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700"
+                  x-on:click.prevent.default="open{{item.id}}=false, overFlow=false"
+                  hx-delete="{% url 'carts:cart_item_delete' item.id %}"
+                  hx-target="#cart-card"
+                  hx-swap="outerHTML"           
+                  >
+                    Ok
+                  </button>
+                </div>
+              </div>
+        
             </div>
 
           </div>
@@ -190,6 +243,8 @@
       </form>  
 
     </div>
+
+    
     
     
   </div>
