@@ -1,7 +1,7 @@
 <!--hidden button to close the dropdown-->
-<button x-show="overFlow"
+<button x-show="isOpen"
 class="fixed inset-0 w-full h-full bg-gray-500 opacity-50 cursor-default -z-30"
-x-on:click="overFlow=!overFlow, $dispatch('user-nav')"
+x-on:click="overFlow=!overFlow, isOpen=false"
 >
 </button>
 
@@ -13,7 +13,6 @@ x-on:click="overFlow=!overFlow, $dispatch('user-nav')"
     x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="translate-0 opacity-100"
     x-transition:leave-end="-translate-y-6 opacity-0"
-    x-on:user-nav.window="isOpen=false"
     x-cloak 
      class="overflow-hidden font-medium text-gray-800 bg-white rounded w-36">
 

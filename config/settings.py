@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from decouple import config
+
 
 from django.conf.urls.static import static
 
@@ -12,10 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('APP_KEY', 'changeme')
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('APP_DEBUG', cast=bool)
+DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -38,9 +40,6 @@ INSTALLED_APPS = [
     
 ]
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
-
-CRISPY_TEMPLATE_PACK = "tailwind"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,13 +120,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+# STATIC_URL = '/static/static/'
+# STATIC_ROOT = '/vol/web/static'
+
+# MEDIA_URL = '/static/media/' 
+# MEDIA_ROOT = '/vol/web/media'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [BASE_DIR, "static"]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
 MEDIA_ROOT = BASE_DIR / 'media/'
 
 LOGIN_REDIRECT_URL = '/'
