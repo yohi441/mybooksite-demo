@@ -122,7 +122,6 @@ x-on:click="overFlow=!overFlow, isOpen=false"
         <button x-on:click.prevent.default="open=false, overFlow=false" class="px-3 py-2 text-white bg-red-600 rounded-md hover:bg-red-700">Cancel</button>
         <a class="px-3 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700"
         x-on:click="open=false, overFlow=false"
-        hx-boost="true"
         href="{% url 'accounts:logout' %}"          
         >
           Ok
