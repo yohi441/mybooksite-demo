@@ -1,0 +1,13 @@
+node_modules/
+.env
+data_to_db.py
+sample.csv
+tailwind.css
+tailwind.config.js
+package-lock.json
+package.json
+config/.env
+db.sqlite3
+.pytest_cache
+.git
+
