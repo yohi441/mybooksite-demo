@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'booksite-demo.herokuapp.com']
@@ -83,9 +83,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+if os.environ.get('HEROKU_POSTGRESQL_GOLD_URL'):
+    DATABASES['default'] = dj_database_url.config(default=os.environ['HEROKU_POSTGRESQL_GOLD_URL'])
+
 
 
 

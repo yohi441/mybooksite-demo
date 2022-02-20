@@ -12,21 +12,16 @@ class Book(models.Model):
         (5,5),
     )
    
-    title = models.CharField(max_length=250)
-    slug = models.SlugField(blank=True, null=True)
+    title = models.CharField(max_length=500)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     rating = models.PositiveIntegerField(choices=rating_choice)
-    description = models.TextField()
+    description = models.TextField(max_length=2000)
     img = models.ImageField(upload_to="book_img", null=True, blank=True)
     thumbnail = models.ImageField(upload_to="book_thumbnails", null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
-        if self.slug is None:
-            self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
     
     @property
     def is_in_stock(self):
