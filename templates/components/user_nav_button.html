@@ -1,7 +1,13 @@
 <div class="w-8 h-8 overflow-hidden rounded-full cursor-pointer ">
 
   <img class="object-cover w-full h-full" 
-       src="{{user.profile.avatar.url}}" 
+       src="{% if request.user.profile.avatar.url is not null %}
+            {{request.user.profile.avatar.url}}
+            {% else %}
+            https://res.cloudinary.com/derqjgcyg/image/upload/v1645411542/media/avatar/default_rvyiey.jpg
+            {% endif %}
+            "
+             
        alt="avatar"
   >
 

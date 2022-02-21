@@ -1,6 +1,6 @@
 from django.db import models
-from django.db.models.deletion import CASCADE
-from django.utils.text import slugify
+
+
 
 
 class Book(models.Model):
@@ -16,8 +16,8 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     rating = models.PositiveIntegerField(choices=rating_choice)
     description = models.TextField(max_length=2000)
-    img = models.ImageField(upload_to="book_img", null=True, blank=True)
-    thumbnail = models.ImageField(upload_to="book_thumbnails", null=True, blank=True)
+    img = models.ImageField(upload_to="book_img/", null=True, blank=True)
+    # thumbnail = models.ImageField(upload_to="book_thumbnails/", null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -35,7 +35,6 @@ class Book(models.Model):
         return self.title
 
     
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)

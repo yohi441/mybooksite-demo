@@ -110,8 +110,8 @@
           <a href="{% url 'mybooksite:detail' recent_book.pk %}">
             
             <img class="w-20 h-32 border border-gray-300 rounded hover:ring-1 hover:ring-purple-600" 
-                 src="{{recent_book.thumbnail.url}}" 
-                 alt="" 
+                 src="{{recent_book.img.url}}" 
+                 alt="{{recent_book.title}}" 
             />
           
           </a>

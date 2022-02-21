@@ -151,7 +151,7 @@ def password_reset_request(request):
                     email_template_name = 'accounts/password_message.txt'
                     parameters = {
                         'email': user_email,
-                        'domain': '127.0.0.1:8000',
+                        'domain': 'booksite-demo.herokuapp.com',
                         'site_name': 'mybooksite',
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                         'token': default_token_generator.make_token(user),

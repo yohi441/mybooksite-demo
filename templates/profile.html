@@ -31,9 +31,9 @@
         Lastname: <span class="font-normal">
           {% if request.user.first_name == '' %}None
           {% else %}
-          {{request.user.first_name}}
+          {{request.user.last_name}}
           {% endif %}
-          {{request.user.last_name}}</span>
+          </span>
       </p>
 
       <p>
@@ -58,9 +58,18 @@
 
         <div class="w-12 h-12 overflow-hidden rounded-full">
 
-          <a href="http://127.0.0.1:8000/media/{{request.user.profile.avatar}}">
+          <a href="{% if request.user.profile.avatar.url is not null %}
+          {{request.user.profile.avatar.url}}
+          {% else %}
+          https://res.cloudinary.com/derqjgcyg/image/upload/v1645411542/media/avatar/default_rvyiey.jpg
+          {% endif %}">
           
-            <img class="object-cover w-full h-full" src="{{request.user.profile.avatar.url}}" alt="avatar">
+            <img class="object-cover w-full h-full"
+            src="{% if request.user.profile.avatar.url is not null %}
+            {{request.user.profile.avatar.url}}
+            {% else %}
+            https://res.cloudinary.com/derqjgcyg/image/upload/v1645411542/media/avatar/default_rvyiey.jpg
+            {% endif %}" alt="avatar">
         
           </a>
           
