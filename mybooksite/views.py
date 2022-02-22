@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from django.urls import reverse
 from mybooksite.models import Book, Category
@@ -88,7 +88,7 @@ def detail_view(request, pk):
 
     count = get_count_cart(request)
 
-    book = Book.objects.get(pk=pk)
+    book = get_object_or_404(Book, pk=pk)
 
     recently_viewed_book = None
 
