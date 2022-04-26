@@ -26,6 +26,7 @@ class Checkout(models.Model):
 
     def __str__(self):
         return f"User: {self.user.username} & Order time: {self.created_at}"
+
         
         
 

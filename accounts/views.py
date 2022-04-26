@@ -1,5 +1,4 @@
 import re
-
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth import logout, login
@@ -18,51 +17,53 @@ from django.utils.http import urlsafe_base64_encode
 from carts.views import get_count_cart
 from .forms import ProfileForm
 from .models import Profile
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View
 
 
 
-
-
-
-
-
-def login_view(request):
-    template ='accounts/login.html'
-
-    if request.method == 'POST':
+class MyLoginView(View):
+    template = 'accounts/login.html'
+    
+    def post(self, request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
             return redirect('/')
+        context = {
+            'form': form,
+            'count': 0
+        }
+        return render(request, self.template, context)
 
-    else:
+
+    
+    def get(self, request):
         form = AuthenticationForm(request)
         if request.user.is_authenticated:
             return redirect('/')
+        context = {
+            'form': form,
+            'count': 0
+        }
 
-    context = {
-        'form':form,
-        'count': 0
-    }
-
-    return render(request, template, context)
-
+        return render(request, self.template, context)
 
 
 
-def logout_view(request):
-    logout(request)
-
-    return redirect('mybooksite:index')
+class MyLogoutView(View):
     
+    def get(self, request):
+        logout(request)
+
+        return redirect('mybooksite:index')
 
 
 
-def check_username(request):
-    
-    if request.method == "POST":
+class CheckUsername(View):
+
+    def post(self, request):
         username = request.POST.get('username')
         if username:
             if len(username) < 4:
@@ -92,55 +93,60 @@ def check_username(request):
                 'color': 'text-red-700',
                 }
             return render(request, "accounts/partials/invalid_username.html", context)
-    else:
+
+    def get(self, request):
         return redirect('accounts:register')
+        
 
 
-
-
-def check_email(request):
+class CheckEmail(View):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    if request.method == "POST":
+    def post(self, request):
         email = request.POST.get('email')
         if email:
-            if re.search(regex, email):
+            if re.search(self.regex, email):
                 return render(request, "accounts/partials/valid_email.html")
             else:
                 return render(request,"accounts/partials/invalid_email.html")
         else:          
             return render(request, "accounts/partials/invalid_email_field_required.html")
-    else:
+    
+    def get(self, request):
         return redirect('accounts:register')
-        
 
 
 
-def register_view(request):
+class MyRegisterView(View):
     template = "accounts/register.html"
 
-    if request.method == 'POST':
+    def post(self, request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('accounts:register_success')  
+            return redirect('accounts:register_success')
+        
+        context = {
+            'form': form,
+            'count':0
+        }
+        return render(request, self.template, context)
 
-    else:
+    def get(self, request):
         form = RegisterForm()
         if request.user.is_authenticated:
             return redirect('mybooksite:index')
 
-    context = {
-        'form': form,
-        'count':0
-    }
-    
-    return render(request, template, context)
+        context = {
+            'form': form,
+            'count':0
+        }
+        return render(request, self.template, context)
 
 
 
+class PasswordResetRequest(View):
 
-def password_reset_request(request):
-    if request.method == 'POST':
+    def post(self, request):
         password_form = PasswordResetForm(request.POST)
         if password_form.is_valid():
             data = password_form.cleaned_data['email']
@@ -163,93 +169,81 @@ def password_reset_request(request):
                     except:
                         return HttpResponse("Invalid Header")
                     return redirect('accounts:password_reset_done')
-    else:
+        context = {
+            'password_form': password_form
+        }
+        return render(request, 'accounts/password_reset.html', context)
+
+    def get(self, request):
         password_form = PasswordResetForm()
-
-    context = {
-        'password_form': password_form
-    }
-    
-    return render(request, 'accounts/password_reset.html', context)
+        context = {
+            'password_form': password_form
+        }
+        return render(request, 'accounts/password_reset.html', context)
 
 
-@login_required
-def profile_view(request):
-    
+
+class ProfileView(LoginRequiredMixin, View):
     template = 'profile.html'
     
-    count = get_count_cart(request)
-    
-    context = {
-        'count': count,
-    }
+    def get(self, request):
+        count = get_count_cart(request)
+
+        context = {
+            'count': count
+        }
+
+        return render(request, self.template, context)
 
 
-    return render(request, template, context)
 
-
-def profile_edit(request):
-    
+class ProfileEdit(View):
     template = "accounts/partials/edit_profile.html"
     template_full = "accounts/edit_profile_full.html"
 
-    if request.method == 'POST':
-        
+    def post(self, request):
         instance = Profile.objects.get(user=request.user)
 
         form = ProfileForm(request.POST, request.FILES, instance=instance)
 
         if form.is_valid():
-
             first_name = form.cleaned_data['first_name']
-
             last_name = form.cleaned_data['last_name']
-
             email = form.cleaned_data['email']
-
             instance.user.first_name = first_name
-
             instance.user.last_name = last_name
-
             instance.user.email = email
-
             instance.user.save()
-
             form.save()
-
             return HttpResponseRedirect(reverse('accounts:profile'))
+        count = get_count_cart(request)
+        context = {
+            'form': form,
+            'count': count
+            }
+        return render(request, self.template_full, context)
 
-        else:
-
-            count = get_count_cart(request)
-            context = {
-                'form': form,
-                'count': count
-                }
-
-            return render(request, template_full, context)
-
-    else:
-
+    def get(self, request):
         form = ProfileForm()
         count = get_count_cart(request)
 
         if request.htmx:
-
-            return render(request, template, { 'form': form })
-
-        return render(request, template_full, { 'form': form, 'count': count })
+            return render(request, self.template, { 'form': form })
+        return render(request, self.template_full, { 'form': form, 'count': count })
 
 
-def register_success(request):
 
-    template = 'register_sucess.html'
-        
-    if request.user.is_authenticated:
+class RegisterSuccess(View):
+    template = 'register_success.html'
 
-        HttpResponseRedirect(reverse('mybooksite:index'))
+    def get(self, request):
+        if request.user.is_authenticated:
+            HttpResponseRedirect(reverse('mybooksite:index'))
+        return render(request, self.template)
 
-    return render(request, template)
+
+
+
 
     
 

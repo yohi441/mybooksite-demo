@@ -6,38 +6,38 @@ from django.contrib.auth.views import (
     PasswordChangeView,
     PasswordChangeDoneView,
 )
-
 from accounts.views import (
-    logout_view,
-    register_view,
-    login_view,
-    check_username,
-    check_email,
-    password_reset_request,
-    profile_view,
-    profile_edit,
-    register_success,
+    MyLoginView,
+    MyLogoutView, 
+    CheckUsername, 
+    CheckEmail, 
+    MyRegisterView,
+    PasswordResetRequest,
+    ProfileView,
+    ProfileEdit,
+    RegisterSuccess,
 )
+
 
 app_name = "accounts"
 urlpatterns = [
-    path('profile/', profile_view, name='profile'),
-    path('login/', login_view, name="login"),
-    path('logout/', logout_view, name="logout"),
-    path('register-success/', register_success, name="register_success"),
-    path('register/', register_view, name='register'),
+    path('profile/', ProfileView.as_view(), name='profile'),
+    path('login/', MyLoginView.as_view(), name="login"),
+    path('logout/', MyLogoutView.as_view(), name="logout"),
+    path('register-success/', RegisterSuccess.as_view(), name="register_success"),
+    path('register/', MyRegisterView.as_view(), name='register'),
     path('password-change/', PasswordChangeView.as_view(template_name="accounts/password_change.html"), name='password_change'),
     path('password-change-done/', PasswordChangeDoneView.as_view(template_name="accounts/password_change_done.html"), name='password_change_done'),
-    path('password-reset/', password_reset_request, name='password_reset'),
+    path('password-reset/', PasswordResetRequest.as_view(), name='password_reset'),
     path('password-reset-done/', PasswordResetDoneView.as_view(template_name="accounts/password_reset_done.html"),name='password_reset_done'),
     path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name="accounts/password_reset_confirm.html",success_url=reverse_lazy('accounts:password_reset_complete')), name='password_reset_confirm'),
     path('password-reset-complete/', PasswordResetCompleteView.as_view(template_name="accounts/password_reset_complete.html"),name='password_reset_complete'),
 ]
 
 htmx_urlpatterns = [
-    path('check-username/', check_username, name="check_username"),
-    path('check-email/', check_email, name='check_email'),
-    path('edit-profile', profile_edit, name='edit_profile'),
+    path('check-username/', CheckUsername.as_view(), name="check_username"),
+    path('check-email/', CheckEmail.as_view(), name='check_email'),
+    path('edit-profile', ProfileEdit.as_view(), name='edit_profile'),
 ]
 
 urlpatterns += htmx_urlpatterns
