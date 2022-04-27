@@ -6,14 +6,13 @@ from carts.views import get_count_cart
 from django.views.generic import ListView, DetailView, TemplateView, View
 
 
-
 class SearchView(View):
     template = 'components/search_results.html'
 
     def get(self, request):
         q = request.GET.get('q')
         count = get_count_cart(request)
-        books = Book.objects.filter(title__contains=q)[:10]
+        books = Book.objects.filter(title__icontains=q)[:10]
         if q.strip() == "":
             q = 'Search field is empty'
             books = None
@@ -26,26 +25,24 @@ class SearchView(View):
 
 
 class IndexView(ListView):
-    
+
     categories = Category.objects.all()
-    
+
     template_name = "index.html"
     model = Book
     paginate_by = 10
     ordering = ['updated_at']
 
-
     def get_context_data(self, **kwargs):
 
         count = get_count_cart(self.request)
         context = super().get_context_data(**kwargs)
-        context['mylist'] = [1,2,3,4,5]
+        context['mylist'] = [1, 2, 3, 4, 5]
         context['categories'] = self.categories
         context['count'] = count
-        
 
         return context
-    
+
 
 class BookDetailView(DetailView):
     template_name = 'detail.html'
@@ -55,16 +52,18 @@ class BookDetailView(DetailView):
 
     def get_object(self):
         obj = super().get_object()
-        
+
         if 'recently_viewed' in self.request.session:
 
             if obj.pk in self.request.session['recently_viewed']:
                 self.request.session['recently_viewed'].remove(obj.pk)
 
-            books = Book.objects.filter(pk__in=self.request.session['recently_viewed'])
+            books = Book.objects.filter(
+                pk__in=self.request.session['recently_viewed'])
             self.recently_viewed_book = sorted(books,
-                key=lambda x: self.request.session['recently_viewed'].index(x.id)
-                )
+                                               key=lambda x: self.request.session['recently_viewed'].index(
+                                                   x.id)
+                                               )
             self.request.session['recently_viewed'].insert(0, obj.pk)
 
             if len(self.request.session['recently_viewed']) > 5:
@@ -74,9 +73,8 @@ class BookDetailView(DetailView):
             self.request.session['recently_viewed'] = [obj.pk]
 
         self.request.session.modified = True
-            
-        return obj
 
+        return obj
 
     def get_context_data(self, **kwargs):
 
@@ -84,7 +82,7 @@ class BookDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['count'] = count
         context['recently_viewed_book'] = self.recently_viewed_book
-        
+
         return context
 
 
@@ -102,7 +100,7 @@ class CategoryView(View):
 
         context = {
             "categories": categories,
-            "count": count,  
+            "count": count,
             "page_obj": page_obj,
         }
 
@@ -117,19 +115,5 @@ class AboutUsView(TemplateView):
         count = get_count_cart(self.request)
         context = super().get_context_data(**kwargs)
         context['count'] = count
-        
+
         return context
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
