@@ -4,7 +4,12 @@ from django.urls import reverse
 from mybooksite.models import Book, Category
 from carts.views import get_count_cart
 from django.views.generic import ListView, DetailView, TemplateView, View
+import time
 
+
+def get_book_img(request):
+    if request.htmx:
+        pass
 
 class SearchView(View):
     template = 'components/search_results.html'
@@ -27,7 +32,6 @@ class SearchView(View):
 class IndexView(ListView):
 
     categories = Category.objects.all()
-
     template_name = "index.html"
     model = Book
     paginate_by = 10

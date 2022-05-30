@@ -20,20 +20,23 @@
     </title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script defer src="{% static 'js/htmx.js' %}"></script>
+
+    <script defer src="{% static 'js/alpine.js' %}"></script>
 
     <style>
 
       [x-cloak] { display: none; }
-
+      
     </style>
     
   </head>
 
   <body class="text-sm bg-slate-100 font-inter"
         x-data="{overFlow:false, xcount:{{count}}}"
-        x-bind:class="[overFlow ? 'overflow-hidden':'overflow-auto']" x-cloak
+        x-bind:class="[overFlow ? 'overflow-hidden':'overflow-auto']" 
+        x-cloak
   >
- 
     <header>
 
       {% include 'components/navbar.html' %}
@@ -53,10 +56,6 @@
       {% include 'components/footer.html' %}
 
     </footer>
-
-    <script defer src="https://unpkg.com/htmx.org@1.6.1"></script>
-
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script>
 
