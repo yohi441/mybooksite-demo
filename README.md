@@ -1,7 +1,8 @@
 # Mybooksite
 
-This is a demo e-commerce app. Basic functions like add to cart, authentication, view orders etc. is available.
-The books and other information in the app is just a dummy I just scrape in the internet
+This is a demo e-commerce app. <br /> 
+Basic functions like add to cart, authentication, view orders etc. is available. <br />
+The books and other information in the app is just a dummy I just scrape in the internet<br />
 
 This project was created with:
 * python
@@ -14,4 +15,7 @@ This project was created with:
 This project is hosted:
 * google cloud platform
 
-The link of the app https://booksitedemo.tk/
+The link of the app https://booksitedemo.tk/ <br />
+You can login to test the app using this: <br />
+username: test <br />
+password: testpassword <br />
