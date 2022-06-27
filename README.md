@@ -15,7 +15,7 @@ This project was created with:
 This project is hosted:
 * google cloud platform
 
-The link of the app http://35.225.107.197/ <br />
+The link of the app http://35.225.107.197 <br />
 <br />
 You can login to test the app using this: <br />
 username: test <br />
