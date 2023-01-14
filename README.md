@@ -12,11 +12,3 @@ This project was created with:
 * postgresql
 
 
-This project is hosted:
-* google cloud platform
-
-The link of the app http://34.123.196.84/ <br />
-<br />
-You can login to test the app using this: <br />
-username: test <br />
-password: testpassword <br />
