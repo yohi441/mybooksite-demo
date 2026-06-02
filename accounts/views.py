@@ -157,11 +157,11 @@ class PasswordResetRequest(View):
                     email_template_name = 'accounts/password_message.txt'
                     parameters = {
                         'email': user_email,
-                        'domain': 'booksite-demo.herokuapp.com',
+                        'domain': request.get_host(),
                         'site_name': 'mybooksite',
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                         'token': default_token_generator.make_token(user),
-                        'protocol': 'http',
+                        'protocol': request.scheme,
                     }
                     email = render_to_string(email_template_name, parameters)
                     try:
