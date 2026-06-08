@@ -16,8 +16,8 @@ A demo e-commerce bookshop web application built with Django, HTMX, and Alpine.j
 
 | Layer | Technology |
 |---|---|
-| Language | Python 3.8.10 |
-| Framework | Django 3.2 |
+| Language | Python 3.8.10 → 3.12 |
+| Framework | Django 3.2 LTS → 5.2 LTS |
 | Frontend | HTMX, Alpine.js, Tailwind CSS |
 | Database | PostgreSQL (production) / SQLite (development) |
 | Static files | WhiteNoise |
@@ -51,7 +51,7 @@ mybooksite-demo/
 ├── static/              # Tailwind CSS, HTMX, Alpine.js
 ├── manage.py
 ├── requirements.txt
-├── runtime.txt          # python-3.8.10
+├── runtime.txt          # python-3.12
 └── pytest.ini
 ```
 
@@ -59,7 +59,7 @@ mybooksite-demo/
 
 ### Prerequisites
 
-- Python 3.8.10
+- Python 3.12
 - pip
 
 ### Setup
