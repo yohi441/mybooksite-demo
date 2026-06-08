@@ -75,4 +75,3 @@ def test_delete_profile():
     user.delete()
     assert Profile.objects.all().count() == 0
 
-    

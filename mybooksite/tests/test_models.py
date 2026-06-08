@@ -54,7 +54,11 @@ def test_book_img_url_blank_image():
 
 
 @override_settings(
-    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage',
+    STORAGES={
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+    },
     MEDIA_ROOT=os.path.join(tempfile.mkdtemp(), 'media'),
 )
 @pytest.mark.django_db

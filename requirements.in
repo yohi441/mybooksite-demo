@@ -1,0 +1,42 @@
+# Django
+Django>=5.2,<5.3
+
+# Storage
+cloudinary
+django-cloudinary-storage
+
+# Static files
+whitenoise
+
+# Server
+gunicorn
+psycopg[binary]>=3.1.8
+
+# Config & env
+django-environ
+python-decouple
+dj-database-url
+
+# Django add-ons
+django-htmx
+
+# Images
+Pillow>=10.4.0
+
+# HTTP
+requests
+
+# Testing
+pytest
+pytest-django
+pytest-cov
+mixer
+Faker
+coverage
+beautifulsoup4
+
+# Upgrade tools
+django-upgrade
+pyupgrade
+pipdeptree
+pip-audit

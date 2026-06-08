@@ -97,7 +97,7 @@ class CategoryView(View):
         count = get_count_cart(request)
         categories = Category.objects.all()
         category = Category.objects.get(pk=pk)
-        books = category.books.all()
+        books = category.books.all().order_by('-updated_at')
         paginator = Paginator(books, 10)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)

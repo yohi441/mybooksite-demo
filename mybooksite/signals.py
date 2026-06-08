@@ -33,4 +33,3 @@ def create_thumbnail(sender, instance, **kwargs):
         
         
        
-        
