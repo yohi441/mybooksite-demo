@@ -2,6 +2,8 @@
 
 A demo e-commerce bookshop web application built with Django, HTMX, and Alpine.js.
 
+> Originally built with Django 3.2 LTS / Python 3.8, upgraded to Django 5.2 LTS / Python 3.12.
+
 ## Features
 
 - **Book catalog** — browse and search books by title, filter by category, paginated listing
@@ -16,8 +18,8 @@ A demo e-commerce bookshop web application built with Django, HTMX, and Alpine.j
 
 | Layer | Technology |
 |---|---|
-| Language | Python 3.8.10 → 3.12 |
-| Framework | Django 3.2 LTS → 5.2 LTS |
+| Language | Python 3.12 |
+| Framework | Django 5.2 LTS |
 | Frontend | HTMX, Alpine.js, Tailwind CSS |
 | Database | PostgreSQL (production) / SQLite (development) |
 | Static files | WhiteNoise |
