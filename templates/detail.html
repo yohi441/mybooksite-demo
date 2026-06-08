@@ -19,7 +19,7 @@
     <div class="overflow-hidden border border-gray-400 rounded ">
 
       <img class="w-36 h-44 md:w-auto md:h-auto"
-          src="{{book.img.url}}"
+          src="{{book.img_url}}"
           alt="{{ book.title }}"
       />
       
@@ -110,7 +110,7 @@
           <a href="{% url 'mybooksite:detail' recent_book.pk %}">
             
             <img class="w-20 h-32 border border-gray-300 rounded hover:ring-1 hover:ring-purple-600" 
-                 src="{{recent_book.img.url}}" 
+                 src="{{recent_book.img_url}}" 
                  alt="{{recent_book.title}}" 
             />
           

@@ -1,5 +1,6 @@
 from tabnanny import verbose
 from django.db import models
+from django.templatetags.static import static
 
 
 
@@ -24,6 +25,12 @@ class Book(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     
+    @property
+    def img_url(self):
+        if self.img:
+            return self.img.url
+        return static('images/placeholder.svg')
+
     @property
     def is_in_stock(self):
         if self.quantity > 0:
